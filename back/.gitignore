@@ -1,0 +1,17 @@
+# Ignore bundler config.
+/src/.bundle
+/src/bin
+
+# Ignore all log and tmp directories.
+/src/log
+/src/tmp
+
+# Ignore uploaded files in development.
+/src/storage
+
+/src/vendor
+
+# Ignore master key for decrypting credentials and more.
+/src/config/master.key
+
+/.env
