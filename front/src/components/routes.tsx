@@ -6,7 +6,7 @@ export const Routes : React.FC = () => {
   return (
     <Router>
       <Switch>
-          <Route path='/' component={Top} />
+        <Route path='/' component={Top} />
       </Switch>
     </Router>
   );
