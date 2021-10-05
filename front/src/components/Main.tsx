@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Nav } from './Nav';
 import { Content } from './Content';
+import { Nav } from './Nav';
 
 export const Main : React.FC = () => {
   return (
