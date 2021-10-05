@@ -10,7 +10,7 @@ export const Nav : React.FC = () => {
 
   useEffect(() => {
     dispatch(getCaregories())
-  }, [0]);
+  }, []);
 
   return (
     <nav className="border flex-none min-w-min w-1/5">
