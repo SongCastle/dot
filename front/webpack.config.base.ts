@@ -9,13 +9,13 @@ interface Configuration extends WebpackConfiguration {
 }
 
 const srcPath = path.resolve(__dirname, 'src')
-const destPath = path.resolve(__dirname, 'dist')
+const distPath = path.resolve(__dirname, 'dist')
 
 const config : Configuration = {
   context: srcPath,
   entry: './index.tsx',
   output: {
-    path: destPath,
+    path: distPath,
     filename: 'bundle.js',
     publicPath: '/assets/',
   },
