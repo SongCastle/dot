@@ -22,7 +22,7 @@ export const Nav : React.FC = () => {
                 <li key={category.id}>{category.name}</li>
               )
             ) : (
-              <li>カテゴリが存在しません...</li>
+              <li>存在しません...</li>
             )
           }
         </ul>
