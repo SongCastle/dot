@@ -17,11 +17,9 @@ export const Nav : React.FC = () => {
         <p>カテゴリ一覧</p>
         <ul>
             {
-              categories.map(category => {
-                return (
-                  <li key={category.id}>{category.name}</li>
-                );
-              })
+              categories.map(category =>
+                <li key={category.id}>{category.name}</li>
+              )
             }
         </ul>
     </nav>
