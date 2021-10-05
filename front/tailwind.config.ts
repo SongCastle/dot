@@ -2,9 +2,12 @@ import type { TailwindConfig } from 'tailwindcss/tailwind-config';
 
 export const tailwindConfig : TailwindConfig = {
   ...require('tailwindcss/defaultConfig'),
-  purge: [],
+  purge: {
+    enabled: true,
+    content: ['./src/**/*.tsx']
+  },
   presets: null,
-  darkMode: false, // or 'media' or 'class'
+  darkMode: false,
   theme: {
     extend: {
       minHeight: {
