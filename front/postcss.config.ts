@@ -1,5 +1,5 @@
 import tailwindcss from 'tailwindcss';
-import postcss_preset_env from 'postcss-preset-env';
+import postcssPresetEnv from 'postcss-preset-env';
 
 import { tailwindConfig } from './tailwind.config';
 
@@ -10,7 +10,7 @@ interface Configuration {
 const config : Configuration = {
   plugins: [
     tailwindcss(tailwindConfig),
-    postcss_preset_env(),
+    postcssPresetEnv(),
   ]
 }
 
