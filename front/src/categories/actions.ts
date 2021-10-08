@@ -1,11 +1,12 @@
 import { createAction } from '@reduxjs/toolkit';
 
 import { CategoryActionType } from './constants';
-import type { StatusState } from './constants';
+import type { StatusState } from '../common';
 
 export interface CategoryState {
-  id: number;
+  id : number;
   name : string;
+  creator_id : number; 
   status? : StatusState;
 };
 
