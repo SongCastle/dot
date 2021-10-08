@@ -1,0 +1,2 @@
+class MainCategoryRoom < CategoryRoom
+end
