@@ -4,7 +4,7 @@ import postcssPresetEnv from 'postcss-preset-env';
 import { tailwindConfig } from './tailwind.config';
 
 interface Configuration {
-  plugins: any[];
+  plugins : any[];
 }
 
 const config : Configuration = {
