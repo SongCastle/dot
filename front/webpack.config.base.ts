@@ -5,7 +5,7 @@ import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-serv
 import postcssconfig from './postcss.config';
 
 interface Configuration extends WebpackConfiguration {
-  devServer? : WebpackDevServerConfiguration;
+  devServer?: WebpackDevServerConfiguration;
 }
 
 const srcPath = path.resolve(__dirname, 'src')
