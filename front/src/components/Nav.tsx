@@ -18,7 +18,7 @@ export const Nav : React.FC = () => {
         <p>カテゴリ一覧</p>
         <ul>
           {
-            status == StatusState.LOAD ? (
+            status === StatusState.LOAD ? (
               <div>ローディング中...</div>
             ) : (
               categories.length > 0 ? (

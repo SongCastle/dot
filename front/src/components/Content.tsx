@@ -18,7 +18,7 @@ export const Content : React.FC = () => {
     <section className="border flex-grow">
       <h3>最新のルーム一覧</h3>
       {
-        status == StatusState.LOAD ? (
+        status === StatusState.LOAD ? (
           <div>ローディング中...</div>
         ) : (
           rooms.length > 0 ? (
