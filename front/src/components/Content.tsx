@@ -19,7 +19,7 @@ export const Content : React.FC = () => {
       <h3>最新のルーム一覧</h3>
       {
         status === StatusState.LOAD ? (
-          <div>ローディング中...</div>
+          <p>ローディング中...</p>
         ) : (
           rooms.length > 0 ? (
             rooms.map((room) =>

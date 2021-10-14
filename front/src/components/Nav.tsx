@@ -19,7 +19,7 @@ export const Nav : React.FC = () => {
         <ul>
           {
             status === StatusState.LOAD ? (
-              <div>ローディング中...</div>
+              <p>ローディング中...</p>
             ) : (
               categories.length > 0 ? (
                 categories.map(category =>
