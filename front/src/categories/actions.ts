@@ -1,17 +1,18 @@
 import { createAction } from '@reduxjs/toolkit';
 
 import { CategoryActionType } from './constants';
-import type { StatusState } from './constants';
+import type { StatusState } from '../common';
 
 export interface CategoryState {
   id: number;
-  name : string;
-  status? : StatusState;
+  name: string;
+  creator_id: number; 
+  status?: StatusState;
 };
 
 export interface CategoriesState {
-  categories : CategoryState[];
-  status? : StatusState;
+  categories: CategoryState[];
+  status?: StatusState;
 };
 
 export const getCaregories = createAction(CategoryActionType.GET_CATEGORIES);

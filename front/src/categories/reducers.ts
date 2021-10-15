@@ -1,10 +1,11 @@
 import { createReducer } from '@reduxjs/toolkit';
 
 import { CategoriesState, getCaregories, getCaregoriesSuccess } from './actions';
-import { StatusState } from './constants';
+import { StatusState } from '../common';
 
 const initialCategoriesState : CategoriesState = {
-  categories: []
+  categories: [],
+  status: StatusState.IDLE
 };
 
 export const categoriesReducer = createReducer<CategoriesState>(

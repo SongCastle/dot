@@ -3,14 +3,17 @@ import { all, fork } from 'redux-saga/effects';
 import { configureStore } from '@reduxjs/toolkit';
 
 import { categoriesReducer, watchCategoriesRequest } from './categories';
+import { roomsReducer, watchRoomsRequest } from './rooms';
 
 const rootReducer = {
-  categories: categoriesReducer
+  categories: categoriesReducer,
+  rooms: roomsReducer
 };
 
 function* rootSaga() {
   yield all([
-    fork(watchCategoriesRequest)
+    fork(watchCategoriesRequest),
+    fork(watchRoomsRequest)
   ])
 };
 
