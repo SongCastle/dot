@@ -1,16 +1,26 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { dispatch, RootState } from '../store';
-import { StatusState } from '../common';
-import { getCaregories } from '../categories';
-import type { CategoriesState } from '../categories';
+import { LatestCategory } from './Category/LatestCategory';
 
-export const Nav : React.FC = () => {
-  const { categories, status } = useSelector<RootState, CategoriesState>(state => state.categories);
+import {
+  dispatch,
+  getLatestCategories,
+  latestCategoriesSelector,
+  progressSelector,
+  StatusState
+} from '../store';
+
+import type { channel } from '../store';
+
+const myChannel: channel = 'Nav';
+
+export const Nav: React.FC = () => {
+  const status = useSelector(state => progressSelector(state)(myChannel));
+  const categories = useSelector(latestCategoriesSelector);
 
   useEffect(() => {
-    dispatch(getCaregories())
+    dispatch(getLatestCategories(myChannel))
   }, []);
 
   return (
@@ -23,7 +33,7 @@ export const Nav : React.FC = () => {
             ) : (
               categories.length > 0 ? (
                 categories.map(category =>
-                  <li key={category.id}>{category.name}</li>
+                  <LatestCategory key={category.id} category={category} />
                 )
               ) : (
                 <li>存在しません...</li>
