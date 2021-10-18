@@ -43,7 +43,6 @@ Category.reducer = (action: GategoryActionType, modelType: ModelType<Category>, 
       modelType.create(action.payload);
       break;
     case CategoryActionLabel.UPSERT_CATEGORY:
-      // TODO: 同じ値を update した場合、レンダリングについて確認する
       modelType.upsert(action.payload);
       break;
     case CategoryActionLabel.GET_LATEST_CATEGORIES:

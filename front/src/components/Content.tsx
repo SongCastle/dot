@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { shallowEqual, useSelector } from 'react-redux';
 
 import { 
   dispatch,
@@ -15,7 +15,7 @@ const myChnnel: channel = 'Content';
 
 export const Content: React.FC = () => {
   const status = useSelector(state => progressSelector(state)(myChnnel));
-  const rooms = useSelector(latestRoomsSelector);
+  const rooms = useSelector(latestRoomsSelector, shallowEqual);
 
   useEffect(() => {
     dispatch(getLatestRooms(myChnnel));
