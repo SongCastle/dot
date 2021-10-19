@@ -15,7 +15,7 @@ class Category < ApplicationRecord
   # TODO: json シリアライザを利用する
   def to_response
     slice(
-      :id, :name, :created_at, :creator_id
+      :id, :name, :creator_id, :created_at
     ).merge(room_ids: rooms.ids)
   end
 end

@@ -1,11 +1,11 @@
 export {
+  dispatch,
+  runSaga,
+  store,
   categoryRoomsSelector,
   latestCategoriesSelector,
   latestRoomsSelector,
-  progressSelector,
-  dispatch,
-  runSaga,
-  store
+  progressSelector
 } from './store';
 
 export { StatusState } from './progresses';

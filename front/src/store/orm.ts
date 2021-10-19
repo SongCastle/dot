@@ -4,7 +4,7 @@ import { createReducer, ORM } from 'redux-orm';
 import { Category } from './categories';
 import { Room } from './rooms';
 
-// Models
+// Model
 const indexedModels = {
   [Category.modelName]: Category,
   [Room.modelName]: Room
