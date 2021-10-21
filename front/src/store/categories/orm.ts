@@ -11,10 +11,10 @@ interface CategoryFields {
   name: string
   latest?: boolean
   creator_id?: number // TODO: User
-  room_ids?: number[]
-  rooms?: ModelType<Room>
+  rooms?: number[]
+  roomsM?: ModelType<Room>
 };
-export type CategoryState = Ref<Category> & Readonly<Pick<CategoryFields, 'room_ids'>>
+export type CategoryState = Ref<Category> & Readonly<Pick<CategoryFields, 'rooms'>>
 
 export class Category extends Model<typeof Category, CategoryFields> {
   static override modelName = 'Category' as const;
@@ -27,7 +27,7 @@ export class Category extends Model<typeof Category, CategoryFields> {
     id: attr(),
     name: attr(),
     latest: attr(),
-    room_ids: many({to: 'Room', as: 'rooms'})
+    rooms: many({to: 'Room', as: 'roomsM'})
     // TODO: User
     // creator_id: fk({
     //   to: 'User',
@@ -48,7 +48,7 @@ Category.reducer = (action: GategoryActionType, modelType: ModelType<Category>, 
     case CategoryActionLabel.GET_LATEST_CATEGORIES:
       break; // 何もしない
     case CategoryActionLabel.UPSERT_LATEST_CATEGORIES:
-      action.payload.forEach(category => {
+      action.payload.forEach?.(category => {
         category.latest = true;
         modelType.upsert(category);
       });

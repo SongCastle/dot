@@ -7,8 +7,8 @@ export const StatusState = {
 export type StatusState = typeof StatusState[keyof typeof StatusState];
 
 export const ProgressActionLabel = {
-  IDLE: 'idle',
-  LOAD: 'load',
-  SUCCESS: 'success',
-  FAIL: 'fail'
+  IDLE: 'IDLE_ACTION',
+  LOAD: 'LOAD_ACTION',
+  SUCCESS: 'SUCCESS_ACTION',
+  FAIL: 'FAIL_ACTION'
 } as const;

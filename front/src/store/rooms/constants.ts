@@ -1,7 +1,10 @@
 export const RoomActionLabel = {
-  CREATE_ROOM: 'room/create',
-  UPSERT_ROOM: 'room/upsert',
-  UPSERT_ROOMS: 'rooms/upsert',
-  GET_LATEST_ROOMS: 'rooms/latest/index',
-  UPSERT_LATEST_ROOMS: 'rooms/latest/upsert'
+  CREATE_ROOM: 'CREATE_ROOM_ACTION',
+  UPSERT_ROOM: 'UPSERT_ROOM_ACTION',
+  UPSERT_ROOMS: 'UPSERT_ROOMS_ACTION',
+  GET_CATEGORY_ROOMS: 'GET_CATEGORY_ROOMS_ACTION',
+  GET_LATEST_ROOMS: 'GET_LATEST_ROOMS_ACTION',
+  UPSERT_LATEST_ROOMS: 'UPSERT_LATEST_ROOMS_ACTION'
 } as const;
+
+export const roomJSONType = 'RoomJSON';
