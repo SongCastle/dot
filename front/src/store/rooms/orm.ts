@@ -12,7 +12,7 @@ export interface RoomFields {
   description?: string
   latest?: boolean
   creator_id?: number // TODO: User
-  categories?: number[]
+  categories?: string[]
   categoriesM?: ModelType<Category> // TODO: main, sub の扱いについて
 };
 export type RoomState = Ref<Category> & Readonly<Pick<RoomFields, 'categories'>>;

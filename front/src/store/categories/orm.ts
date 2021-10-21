@@ -11,7 +11,7 @@ interface CategoryFields {
   name: string
   latest?: boolean
   creator_id?: number // TODO: User
-  rooms?: number[]
+  rooms?: string[]
   roomsM?: ModelType<Room>
 };
 export type CategoryState = Ref<Category> & Readonly<Pick<CategoryFields, 'rooms'>>
