@@ -11,11 +11,4 @@ class Category < ApplicationRecord
   scope :only_sub, -> {
     joins("INNER JOIN `category_rooms` ON `category_rooms`.`category_id` = `categories`.`id` AND `category_rooms`.`type` = '#{SubCategoryRoom.to_s}'").distinct
   }
-
-  # TODO: json シリアライザを利用する
-  def to_response
-    slice(
-      :id, :name, :creator_id, :created_at
-    ).merge(room_ids: rooms.ids)
-  end
 end

@@ -1,19 +1,19 @@
 class V1::CategoriesController < ApplicationController
-  before_action :set_categories, only: :index
-  before_action :set_category, only: :show
+  before_action :set_categories_json, only: :index
+  before_action :set_category_json, only: :show
 
   def index
-    render json: @categories&.map(&:to_response)
+    return_json
   end
 
   def show
-    render json: @category
+    return_json
   end
 
   private
 
-  def set_categories
-    @categories =
+  def set_categories_json
+    categories =
       case params[:type]
       when 'main'
         Category.only_main
@@ -22,10 +22,14 @@ class V1::CategoriesController < ApplicationController
       else
         Category
       end.order(id: :desc).limit(5)
+
+    @json = CategorySerializer.new(categories, is_collection: true)
   end
 
-  def set_category
-    @category = Category.find_by(id: params[:id])
-    raise NotFound if @category.nil?
+  def set_category_json
+    category = Category.find_by(id: params[:id])
+    raise NotFound if category.nil?
+
+    @json = CategorySerializer.new(category)
   end
 end
