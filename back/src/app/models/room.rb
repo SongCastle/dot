@@ -12,5 +12,5 @@ class Room < ApplicationRecord
   has_one :main_category, through: :main_category_room, source: :category
   # サブカテゴリ
   has_many :sub_category_rooms
-  has_many :sub_categories, through: :main_category_room, source: :category
+  has_many :sub_categories, through: :sub_category_rooms, source: :category
 end
