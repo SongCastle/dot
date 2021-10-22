@@ -3,7 +3,7 @@ class V1::RoomsController < ApplicationController
   before_action :set_room, only: :show
 
   def index
-    render json: @rooms
+    render json: @rooms&.map(&:to_response)
   end
 
   def show

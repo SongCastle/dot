@@ -7,7 +7,7 @@ interface Configuration {
   plugins: any[];
 }
 
-const config : Configuration = {
+const config: Configuration = {
   plugins: [
     tailwindcss(tailwindConfig),
     postcssPresetEnv(),

@@ -3,7 +3,7 @@ class V1::CategoriesController < ApplicationController
   before_action :set_category, only: :show
 
   def index
-    render json: @categories
+    render json: @categories&.map(&:to_response)
   end
 
   def show

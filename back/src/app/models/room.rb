@@ -13,4 +13,10 @@ class Room < ApplicationRecord
   # サブカテゴリ
   has_many :sub_category_rooms
   has_many :sub_categories, through: :main_category_room, source: :category
+
+  def to_response
+    slice(
+      :id, :name, :creator_id, :created_at, :creator_id
+    ).merge(category_ids: categories.ids)   
+  end
 end

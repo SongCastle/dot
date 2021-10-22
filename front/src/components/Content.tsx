@@ -1,17 +1,24 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { shallowEqual, useSelector } from 'react-redux';
 
-import { StatusState } from '../common';
-import { getRooms, RoomsState } from '../rooms';
-import { dispatch } from '../store';
-import type { RootState } from '../store';
+import { 
+  dispatch,
+  getLatestRooms,
+  latestRoomsSelector,
+  progressSelector,
+  StatusState
+} from '../store';
 
+import type { channel } from '../store';
 
-export const Content : React.FC = () => {
-  const { rooms, status } = useSelector<RootState, RoomsState>((state) => state.rooms);
+const myChnnel: channel = 'Content';
+
+export const Content: React.FC = () => {
+  const status = useSelector(state => progressSelector(state)(myChnnel));
+  const rooms = useSelector(latestRoomsSelector, shallowEqual);
 
   useEffect(() => {
-    dispatch(getRooms());
+    dispatch(getLatestRooms(myChnnel));
   }, []);
 
   return (

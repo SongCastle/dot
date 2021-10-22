@@ -11,7 +11,7 @@ interface Configuration extends WebpackConfiguration {
 const srcPath = path.resolve(__dirname, 'src')
 const distPath = path.resolve(__dirname, 'dist')
 
-const config : Configuration = {
+const config: Configuration = {
   context: srcPath,
   entry: './index.tsx',
   output: {

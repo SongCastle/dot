@@ -1,7 +1,3 @@
-export const CommonConstants = {
-  BACK_HOST: process.env.BACK_HOST
-} as const
-
 export const StatusState = {
   IDLE: 'idle',
   LOAD: 'loading',
@@ -9,3 +5,10 @@ export const StatusState = {
   FAIL: 'failed'
 } as const;
 export type StatusState = typeof StatusState[keyof typeof StatusState];
+
+export const ProgressActionLabel = {
+  IDLE: 'idle',
+  LOAD: 'load',
+  SUCCESS: 'success',
+  FAIL: 'fail'
+} as const;
