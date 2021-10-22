@@ -37,7 +37,7 @@ export const dispatch = store.dispatch;
 
 export const runSaga = () => {
   sagaMiddleware.run(rootSaga);
-}
+};
 
 // Selector
 const ormSelector = createSelector(store.getState, (state) => state.orm);
