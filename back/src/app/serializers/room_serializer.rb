@@ -1,6 +1,6 @@
 class RoomSerializer
   include JSONAPI::Serializer
 
-  attributes :name, :creator_id, :created_at, :creator_id
+  attributes :name, :description, :creator_id, :created_at
   has_many :categories
 end

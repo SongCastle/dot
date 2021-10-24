@@ -27,6 +27,7 @@ export class Room extends Model<typeof Room, RoomFields> {
   static override fields = {
     id: attr(),
     name: attr(),
+    description: attr(),
     latest: attr(),
     categories: many({to: 'Category', as: 'categoriesM'})
     // TODO: User
