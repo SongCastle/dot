@@ -7,7 +7,7 @@ import { RoomActionLabel } from './constants';
 import type { Category } from '../categories';
 
 export interface RoomFields {
-  id: number
+  id: string
   name: string
   description?: string
   latest?: boolean

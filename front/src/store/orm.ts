@@ -21,7 +21,7 @@ export const latestCategoriesORMSelector = (state: ORMRootState) => {
   const categories = orm.session(state).Category.all().toRefArray();
   return categories.filter(category => category.latest);
 };
-export const categoryRoomsORMSelector = (state: ORMRootState, category_id: number) => {
+export const categoryRoomsORMSelector = (state: ORMRootState, category_id: string) => {
   const category = orm.session(state).Category.withId(category_id);
   return category?.roomsM?.all().toRefArray() || [];
 };

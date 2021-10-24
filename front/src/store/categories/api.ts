@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+import { UpsertCategoryProps }  from './actions';
 import { categoryJSONType } from './constants';
 
 import { CommonConstants, JSONSerializer } from '../common';
@@ -19,7 +20,7 @@ JSONSerializer.register(
 );
 
 // API
-export async function getMainCategoriesApi() : Promise<JSONAPIDocument>{
+export async function getMainCategoriesApi() : Promise<UpsertCategoryProps[]>{
   const base = axios.create({
     baseURL: CommonConstants.BACK_HOST
   });
@@ -28,5 +29,5 @@ export async function getMainCategoriesApi() : Promise<JSONAPIDocument>{
       type: 'main'
     }
   });
-  return JSONSerializer.deserialize(categoryJSONType, response.data);
+  return JSONSerializer.deserialize<UpsertCategoryProps[]>(categoryJSONType, response.data);
 };

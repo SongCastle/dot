@@ -7,7 +7,7 @@ import { CategoryActionLabel } from './constants';
 import type { Room } from '../rooms';
 
 interface CategoryFields {
-  id: number
+  id: string
   name: string
   latest?: boolean
   creator_id?: number // TODO: User

@@ -21,7 +21,7 @@ export const upsertRoom = createAction(RoomActionLabel.UPSERT_ROOM, (room: Upser
     payload: room
   }
 });
-export const getCategoryRooms = createAction(RoomActionLabel.GET_CATEGORY_ROOMS, (category_id: number, channel: channel) => {
+export const getCategoryRooms = createAction(RoomActionLabel.GET_CATEGORY_ROOMS, (category_id: string, channel: channel) => {
   return {
     payload: {
       category_id: category_id,
