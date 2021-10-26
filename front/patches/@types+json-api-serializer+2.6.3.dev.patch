@@ -1,0 +1,18 @@
+diff --git a/node_modules/@types/json-api-serializer/index.d.ts b/node_modules/@types/json-api-serializer/index.d.ts
+index fd6491f..b2e3150 100755
+--- a/node_modules/@types/json-api-serializer/index.d.ts
++++ b/node_modules/@types/json-api-serializer/index.d.ts
+@@ -152,11 +152,11 @@ declare class JSONAPISerializer {
+     overrideSchemaOptions?: { [type: string]: JSONAPISerializer.Options }
+   ): Promise<JSONAPISerializer.JSONAPIDocument>;
+ 
+-  deserialize(
++  deserialize<T=any>(
+     type: string | JSONAPISerializer.DynamicTypeOptions,
+     data: JSONAPISerializer.JSONAPIDocument,
+     schema?: string
+-  ): any;
++  ): T;
+ 
+   deserializeAsync(
+     type: string | JSONAPISerializer.DynamicTypeOptions,

@@ -11,8 +11,8 @@ export {
 export { StatusState } from './progresses';
 export type { channel } from './progresses';
 
-export { getCategoryRooms, getLatestCategories } from './categories';
+export { getLatestCategories } from './categories';
 export type { CategoryState } from './categories';
 
-export { getLatestRooms } from './rooms';
+export { getCategoryRooms, getLatestRooms } from './rooms';
 export type { RoomState } from './rooms';

@@ -7,15 +7,15 @@ import { RoomActionLabel } from './constants';
 import type { Category } from '../categories';
 
 export interface RoomFields {
-  id: number
+  id: string
   name: string
   description?: string
   latest?: boolean
   creator_id?: number // TODO: User
-  category_ids?: number[]
-  categories?: ModelType<Category> // TODO: main, sub の扱いについて
+  categories?: string[]
+  categoriesM?: ModelType<Category> // TODO: main, sub の扱いについて
 };
-export type RoomState = Ref<Category> & Readonly<Pick<RoomFields, 'category_ids'>>
+export type RoomState = Ref<Category> & Readonly<Pick<RoomFields, 'categories'>>;
 
 export class Room extends Model<typeof Room, RoomFields> {
   static override modelName = 'Room' as const;
@@ -27,8 +27,9 @@ export class Room extends Model<typeof Room, RoomFields> {
   static override fields = {
     id: attr(),
     name: attr(),
+    description: attr(),
     latest: attr(),
-    category_ids: many({to: 'Category', as: 'categories'})
+    categories: many({to: 'Category', as: 'categoriesM'})
     // TODO: User
     // creator_id: fk({
     //   to: 'User',
@@ -46,10 +47,13 @@ Room.reducer = (action: RoomActionType, modelType: ModelType<Room>, session) => 
     case RoomActionLabel.UPSERT_ROOM:
       modelType.upsert(action.payload);
       break;
-    case RoomActionLabel.GET_LATEST_ROOMS:
+    case RoomActionLabel.UPSERT_ROOMS:
+      action.payload.forEach?.(room => modelType.upsert(room));
+      break;
+    case RoomActionLabel.GET_CATEGORY_ROOMS, RoomActionLabel.GET_LATEST_ROOMS:
       break; // 何もしない
     case RoomActionLabel.UPSERT_LATEST_ROOMS:
-      action.payload.forEach(room => {
+      action.payload.forEach?.(room => {
         room.latest = true;
         modelType.upsert(room);
       });

@@ -44,7 +44,7 @@ const ormSelector = createSelector(store.getState, (state) => state.orm);
 export const latestCategoriesSelector = createSelector(ormSelector, orm => latestCategoriesORMSelector(orm));
 export const categoryRoomsSelector = createSelector(
   ormSelector,
-  (orm) => (category_id: number) => categoryRoomsORMSelector(orm, category_id)
+  (orm) => (category_id: string) => categoryRoomsORMSelector(orm, category_id)
 );
 
 export const latestRoomsSelector = createSelector(ormSelector, (orm) => latestRoomsORMSelector(orm));

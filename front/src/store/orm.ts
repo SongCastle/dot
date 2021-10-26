@@ -1,4 +1,3 @@
-import { createSelector } from '@reduxjs/toolkit';
 import { createReducer, ORM } from 'redux-orm';
 
 import { Category } from './categories';
@@ -22,9 +21,9 @@ export const latestCategoriesORMSelector = (state: ORMRootState) => {
   const categories = orm.session(state).Category.all().toRefArray();
   return categories.filter(category => category.latest);
 };
-export const categoryRoomsORMSelector = (state: ORMRootState, category_id: number) => {
+export const categoryRoomsORMSelector = (state: ORMRootState, category_id: string) => {
   const category = orm.session(state).Category.withId(category_id);
-  return category?.rooms?.all().toRefArray() || [];
+  return category?.roomsM?.all().toRefArray() || [];
 };
 export const latestRoomsORMSelector = (state: ORMRootState) => {
   const rooms = orm.session(state).Room.all().toRefArray();

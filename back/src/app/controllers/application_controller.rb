@@ -22,4 +22,8 @@ class ApplicationController < ActionController::API
   def http_error(e)
     render status: e.status, code: e.code
   end
+
+  def return_json
+    render json: @json || {}
+  end
 end
