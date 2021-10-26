@@ -5,11 +5,11 @@ export {
   categoryRoomsSelector,
   latestCategoriesSelector,
   latestRoomsSelector,
-  progressSelector
+  progressSelector,
 } from './store';
 
 export { StatusState } from './progresses';
-export type { channel } from './progresses';
+export type { Channel } from './progresses';
 
 export { getLatestCategories } from './categories';
 export type { CategoryState } from './categories';

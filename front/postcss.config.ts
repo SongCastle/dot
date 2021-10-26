@@ -8,10 +8,7 @@ interface Configuration {
 }
 
 const config: Configuration = {
-  plugins: [
-    tailwindcss(tailwindConfig),
-    postcssPresetEnv(),
-  ]
-}
+  plugins: [tailwindcss(tailwindConfig), postcssPresetEnv()],
+};
 
-export = config
+export = config;

@@ -8,8 +8,8 @@ interface Configuration extends WebpackConfiguration {
   devServer?: WebpackDevServerConfiguration;
 }
 
-const srcPath = path.resolve(__dirname, 'src')
-const distPath = path.resolve(__dirname, 'dist')
+const srcPath = path.resolve(__dirname, 'src');
+const distPath = path.resolve(__dirname, 'dist');
 
 const config: Configuration = {
   context: srcPath,
@@ -37,16 +37,16 @@ const config: Configuration = {
             loader: 'css-loader',
             options: {
               importLoaders: 1,
-            }
+            },
           },
           {
             loader: 'postcss-loader',
             options: {
               postcssOptions: postcssconfig,
-            }
-          }
+            },
+          },
         ],
-      }
+      },
     ],
   },
   resolve: {
@@ -54,9 +54,9 @@ const config: Configuration = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.BACK_HOST': JSON.stringify(process.env.BACK_HOST)
-    })
-  ]
+      'process.env.BACK_HOST': JSON.stringify(process.env.BACK_HOST),
+    }),
+  ],
 };
 
 export default config;
