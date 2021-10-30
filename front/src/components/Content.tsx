@@ -1,21 +1,23 @@
 import React, { useEffect } from 'react';
-import { shallowEqual, useSelector } from 'react-redux';
+import isEqual from 'react-fast-compare';
+import { useSelector } from 'react-redux';
+import type { DefaultRootState } from 'react-redux';
 
-import {
-  dispatch,
-  getLatestRooms,
-  latestRoomsSelector,
-  progressSelector,
-  StatusState,
-} from '../store';
+import { dispatch, getLatestRooms, latestRoomsSelector, StatusState } from '../store';
 
 import type { Channel } from '../store';
 
 const myChnnel: Channel = 'Content';
+const myLatestRoomsSelector = (state: DefaultRootState) => (channel: Channel) => {
+  const { rooms, status } = latestRoomsSelector(state)(channel);
+  return {
+    rooms: rooms.map(({ id, name }) => ({ id, name })),
+    status,
+  };
+};
 
 export const Content: React.FC = () => {
-  const status = useSelector((state) => progressSelector(state)(myChnnel));
-  const rooms = useSelector(latestRoomsSelector, shallowEqual);
+  const { rooms, status } = useSelector((state) => myLatestRoomsSelector(state)(myChnnel), isEqual);
 
   useEffect(() => {
     dispatch(getLatestRooms(myChnnel));

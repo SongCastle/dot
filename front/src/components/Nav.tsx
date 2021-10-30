@@ -1,23 +1,27 @@
 import React, { useEffect } from 'react';
-import { shallowEqual, useSelector } from 'react-redux';
+import isEqual from 'react-fast-compare';
+import { useSelector } from 'react-redux';
+import type { DefaultRootState } from 'react-redux';
 
 import { LatestCategory } from './Category/LatestCategory';
 
-import {
-  dispatch,
-  getLatestCategories,
-  latestCategoriesSelector,
-  progressSelector,
-  StatusState,
-} from '../store';
-
+import { dispatch, getLatestCategories, latestCategoriesSelector, StatusState } from '../store';
 import type { Channel } from '../store';
 
 const myChannel: Channel = 'Nav';
+const myLatestCategoriesSelector = (state: DefaultRootState) => (channel: Channel) => {
+  const { categories, status } = latestCategoriesSelector(state)(channel);
+  return {
+    categories: categories.map(({ id, name }) => ({ id, name })),
+    status,
+  };
+};
 
 export const Nav: React.FC = () => {
-  const status = useSelector((state) => progressSelector(state)(myChannel));
-  const categories = useSelector(latestCategoriesSelector, shallowEqual);
+  const { categories, status } = useSelector(
+    (state) => myLatestCategoriesSelector(state)(myChannel),
+    isEqual,
+  );
 
   useEffect(() => {
     dispatch(getLatestCategories(myChannel));
@@ -32,7 +36,7 @@ export const Nav: React.FC = () => {
         }
         if (categories.length > 0) {
           return categories.map((category) => (
-            <LatestCategory key={category.id} category={category} />
+            <LatestCategory key={category.id} id={category.id} name={category.name} />
           ));
         }
         return <p>存在しません...</p>;

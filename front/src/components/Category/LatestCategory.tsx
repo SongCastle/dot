@@ -1,32 +1,40 @@
 import React, { useEffect } from 'react';
-import { shallowEqual, useSelector } from 'react-redux';
+import isEqual from 'react-fast-compare';
+import { useSelector } from 'react-redux';
+import type { DefaultRootState } from 'react-redux';
 
-import {
-  dispatch,
-  getCategoryRooms,
-  categoryRoomsSelector,
-  progressSelector,
-  StatusState,
-} from '../../store';
+import { dispatch, getCategoryRooms, categoryRoomsSelector, StatusState } from '../../store';
 
-import type { Channel, CategoryState } from '../../store';
+import type { Channel } from '../../store';
 
-type LatestCategoryProp = { category: CategoryState };
+type LatestCategoryProp = {
+  id: string;
+  name: string;
+};
 
-export const LatestCategory: React.FC<LatestCategoryProp> = ({ category }) => {
-  const myChannel: Channel = `LatestCategory-${category.id}`;
+const myCategoryRoomsSelector =
+  (state: DefaultRootState) => (category_id: string, channel: Channel) => {
+    const { rooms, status } = categoryRoomsSelector(state)(category_id, channel);
+    return {
+      rooms: rooms.map(({ id, name }) => ({ id, name })),
+      status,
+    };
+  };
 
-  // TODO: selector を 1 つにしたい
-  const status = useSelector((state) => progressSelector(state)(myChannel));
-  const rooms = useSelector((state) => categoryRoomsSelector(state)(category.id), shallowEqual);
+export const LatestCategory: React.FC<LatestCategoryProp> = ({ id, name }) => {
+  const myChannel: Channel = `LatestCategory-${id}`;
+  const { rooms, status } = useSelector(
+    (state) => myCategoryRoomsSelector(state)(id, myChannel),
+    isEqual,
+  );
 
   useEffect(() => {
-    dispatch(getCategoryRooms(category.id, myChannel));
+    dispatch(getCategoryRooms(id, myChannel));
   }, []);
 
   return (
     <div className='border my-2'>
-      <p>{category.name}</p>
+      <p>{name}</p>
       <ul className='pl-2'>
         {status === StatusState.LOAD ? (
           <li>ローディング中...</li>
