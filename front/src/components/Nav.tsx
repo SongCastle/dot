@@ -35,8 +35,8 @@ export const Nav: React.FC = () => {
           return <p>ローディング中...</p>;
         }
         if (categories.length > 0) {
-          return categories.map((category) => (
-            <LatestCategory key={category.id} id={category.id} name={category.name} />
+          return categories.map(({ id, name }) => (
+            <LatestCategory key={id} id={id} name={name} />
           ));
         }
         return <p>存在しません...</p>;

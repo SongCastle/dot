@@ -31,7 +31,7 @@ export const Content: React.FC = () => {
           return <p>ローディング中...</p>;
         }
         if (rooms.length > 0) {
-          return rooms.map((room) => <article key={room.id}>{room.name}</article>);
+          return rooms.map(({ id, name }) => <article key={id}>{name}</article>);
         }
         return <div>存在しません...</div>;
       })()}

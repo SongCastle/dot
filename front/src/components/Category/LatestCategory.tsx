@@ -39,7 +39,7 @@ export const LatestCategory: React.FC<LatestCategoryProp> = ({ id, name }) => {
         {status === StatusState.LOAD ? (
           <li>ローディング中...</li>
         ) : (
-          rooms.map((room) => <li key={room.id}>{room.name}</li>)
+          rooms.map(({ id, name }) => <li key={id}>{name}</li>)
         )}
       </ul>
     </div>
