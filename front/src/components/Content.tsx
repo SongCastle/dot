@@ -1,20 +1,20 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 
-import { 
+import {
   dispatch,
   getLatestRooms,
   latestRoomsSelector,
   progressSelector,
-  StatusState
+  StatusState,
 } from '../store';
 
-import type { channel } from '../store';
+import type { Channel } from '../store';
 
-const myChnnel: channel = 'Content';
+const myChnnel: Channel = 'Content';
 
 export const Content: React.FC = () => {
-  const status = useSelector(state => progressSelector(state)(myChnnel));
+  const status = useSelector((state) => progressSelector(state)(myChnnel));
   const rooms = useSelector(latestRoomsSelector, shallowEqual);
 
   useEffect(() => {
@@ -22,21 +22,17 @@ export const Content: React.FC = () => {
   }, []);
 
   return (
-    <section className="border flex-grow">
+    <section className='border flex-grow'>
       <h3>最新のルーム一覧</h3>
-      {
-        status === StatusState.LOAD ? (
-          <p>ローディング中...</p>
-        ) : (
-          rooms.length > 0 ? (
-            rooms.map((room) =>
-              <article key={room.id}>{room.name}</article>
-            )
-          ) : (
-            <div>存在しません...</div>
-          )
-        )
-      }
+      {(() => {
+        if (status === StatusState.LOAD) {
+          return <p>ローディング中...</p>;
+        }
+        if (rooms.length > 0) {
+          return rooms.map((room) => <article key={room.id}>{room.name}</article>);
+        }
+        return <div>存在しません...</div>;
+      })()}
     </section>
   );
 };

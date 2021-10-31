@@ -1,0 +1,38 @@
+diff --git a/node_modules/@types/tailwindcss/tailwind-config.d.ts b/node_modules/@types/tailwindcss/tailwind-config.d.ts
+index 848c567..8796f39 100755
+--- a/node_modules/@types/tailwindcss/tailwind-config.d.ts
++++ b/node_modules/@types/tailwindcss/tailwind-config.d.ts
+@@ -629,6 +629,8 @@ export interface TailwindConfig {
+             readonly '0': string;
+             readonly full: string;
+             readonly screen: string;
++        } | {
++            readonly [key: string]: string;
+         };
+         readonly minWidth: {
+             readonly '0': string;
+@@ -1086,7 +1088,7 @@ export interface TailwindConfig {
+         readonly wordBreak: Variant[];
+         readonly zIndex: Variant[];
+     }>;
+-    corePlugins: [
++    corePlugins?: [
+         'preflight',
+         'container',
+         'space',
+@@ -1209,10 +1211,10 @@ export interface TailwindConfig {
+     ];
+     plugins: any[];
+     purge: string[] | TailwindPurgeConfig;
+-    presets: any[];
++    presets?: any[];
+     darkMode: false | 'media' | 'class';
+-    variantOrder: Variant[];
+-    prefix: string;
+-    important: boolean;
+-    separator: string;
++    variantOrder?: Variant[];
++    prefix?: string;
++    important?: boolean;
++    separator?: string;
+ }

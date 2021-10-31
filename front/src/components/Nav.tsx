@@ -8,37 +8,35 @@ import {
   getLatestCategories,
   latestCategoriesSelector,
   progressSelector,
-  StatusState
+  StatusState,
 } from '../store';
 
-import type { channel } from '../store';
+import type { Channel } from '../store';
 
-const myChannel: channel = 'Nav';
+const myChannel: Channel = 'Nav';
 
 export const Nav: React.FC = () => {
-  const status = useSelector(state => progressSelector(state)(myChannel));
+  const status = useSelector((state) => progressSelector(state)(myChannel));
   const categories = useSelector(latestCategoriesSelector, shallowEqual);
 
   useEffect(() => {
-    dispatch(getLatestCategories(myChannel))
+    dispatch(getLatestCategories(myChannel));
   }, []);
 
   return (
-    <nav className="border flex-none min-w-min w-1/5">
-        <p>カテゴリ一覧</p>
-        {
-          status === StatusState.LOAD ? (
-            <p>ローディング中...</p>
-          ) : (
-            categories.length > 0 ? (
-              categories.map(category =>
-                <LatestCategory key={category.id} category={category} />
-              )
-            ) : (
-              <p>存在しません...</p>
-            )
-          )
+    <nav className='border flex-none min-w-min w-1/5'>
+      <p>カテゴリ一覧</p>
+      {(() => {
+        if (status === StatusState.LOAD) {
+          return <p>ローディング中...</p>;
         }
+        if (categories.length > 0) {
+          return categories.map((category) => (
+            <LatestCategory key={category.id} category={category} />
+          ));
+        }
+        return <p>存在しません...</p>;
+      })()}
     </nav>
   );
 };
