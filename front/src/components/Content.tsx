@@ -7,7 +7,7 @@ import { dispatch, getLatestRooms, latestRoomsSelector, StatusState } from '../s
 
 import type { Channel } from '../store';
 
-const myChnnel: Channel = 'Content';
+const myChannel: Channel = 'Content';
 const myLatestRoomsSelector = (state: DefaultRootState) => (channel: Channel) => {
   const { rooms, status } = latestRoomsSelector(state)(channel);
   return {
@@ -17,10 +17,10 @@ const myLatestRoomsSelector = (state: DefaultRootState) => (channel: Channel) =>
 };
 
 export const Content: React.FC = () => {
-  const { rooms, status } = useSelector((state) => myLatestRoomsSelector(state)(myChnnel), isEqual);
+  const { rooms, status } = useSelector((state) => myLatestRoomsSelector(state)(myChannel), isEqual);
 
   useEffect(() => {
-    dispatch(getLatestRooms(myChnnel));
+    dispatch(getLatestRooms(myChannel));
   }, []);
 
   return (

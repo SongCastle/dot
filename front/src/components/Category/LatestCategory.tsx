@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import type { DefaultRootState } from 'react-redux';
 
 import { dispatch, getCategoryRooms, categoryRoomsSelector, StatusState } from '../../store';
-
 import type { Channel } from '../../store';
 
 type LatestCategoryProp = {
