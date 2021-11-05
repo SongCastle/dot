@@ -1,24 +1,26 @@
 import React, { useEffect } from 'react';
-import { shallowEqual, useSelector } from 'react-redux';
+import isEqual from 'react-fast-compare';
+import { useSelector } from 'react-redux';
+import type { DefaultRootState } from 'react-redux';
 
-import {
-  dispatch,
-  getLatestRooms,
-  latestRoomsSelector,
-  progressSelector,
-  StatusState,
-} from '../store';
+import { dispatch, getLatestRooms, latestRoomsSelector, StatusState } from '../store';
 
 import type { Channel } from '../store';
 
-const myChnnel: Channel = 'Content';
+const myChannel: Channel = 'Content';
+const myLatestRoomsSelector = (state: DefaultRootState) => (channel: Channel) => {
+  const { rooms, status } = latestRoomsSelector(state)(channel);
+  return {
+    rooms: rooms.map(({ id, name }) => ({ id, name })),
+    status,
+  };
+};
 
 export const Content: React.FC = () => {
-  const status = useSelector((state) => progressSelector(state)(myChnnel));
-  const rooms = useSelector(latestRoomsSelector, shallowEqual);
+  const { rooms, status } = useSelector((state) => myLatestRoomsSelector(state)(myChannel), isEqual);
 
   useEffect(() => {
-    dispatch(getLatestRooms(myChnnel));
+    dispatch(getLatestRooms(myChannel));
   }, []);
 
   return (
@@ -29,7 +31,7 @@ export const Content: React.FC = () => {
           return <p>ローディング中...</p>;
         }
         if (rooms.length > 0) {
-          return rooms.map((room) => <article key={room.id}>{room.name}</article>);
+          return rooms.map(({ id, name }) => <article key={id}>{name}</article>);
         }
         return <div>存在しません...</div>;
       })()}

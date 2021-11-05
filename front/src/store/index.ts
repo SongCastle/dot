@@ -5,7 +5,6 @@ export {
   categoryRoomsSelector,
   latestCategoriesSelector,
   latestRoomsSelector,
-  progressSelector,
 } from './store';
 
 export { StatusState } from './progresses';

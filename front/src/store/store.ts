@@ -23,9 +23,12 @@ const rootReducer = {
 function* rootSaga() {
   yield all([fork(watchCategoriesRequest), fork(watchRoomsRequest)]);
 }
+const sagaMiddleware = createSagaMiddleware();
+export const runSaga = () => {
+  sagaMiddleware.run(rootSaga);
+};
 
 // Store
-const sagaMiddleware = createSagaMiddleware();
 export const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
@@ -33,25 +36,49 @@ export const store = configureStore({
 });
 export const { dispatch } = store;
 
-export const runSaga = () => {
-  sagaMiddleware.run(rootSaga);
-};
+// TODO: Selector の定義箇所について
 
 // Selector
+// ORM Selector
 const ormSelector = createSelector(store.getState, (state) => state.orm);
-export const latestCategoriesSelector = createSelector(ormSelector, (orm) =>
+const latestCategoriesStateSelector = createSelector(ormSelector, (orm) =>
   latestCategoriesORMSelector(orm),
 );
-export const categoryRoomsSelector = createSelector(
+const latestRoomsStateSelector = createSelector(ormSelector, (orm) => latestRoomsORMSelector(orm));
+const categoryRoomsStateSelector = createSelector(
   ormSelector,
   (orm) => (category_id: string) => categoryRoomsORMSelector(orm, category_id),
 );
 
-export const latestRoomsSelector = createSelector(ormSelector, (orm) =>
-  latestRoomsORMSelector(orm),
+// Progress Selector
+const progressStateSelector = createSelector(store.getState, (state) => state.progress);
+const myProgressStateSelector = createSelector(
+  progressStateSelector,
+  (progress) => (channel: Channel) => progress[channel],
 );
 
-export const progressSelector = createSelector(
-  store.getState,
-  (state) => (channel: Channel) => state.progress[channel],
+// ORM and Progress Selector (Combined)
+export const latestCategoriesSelector = createSelector(
+  latestCategoriesStateSelector,
+  myProgressStateSelector,
+  (s1, s2) => (channel: Channel) => ({
+    categories: s1,
+    status: s2(channel),
+  }),
+);
+export const latestRoomsSelector = createSelector(
+  latestRoomsStateSelector,
+  myProgressStateSelector,
+  (s1, s2) => (channel: Channel) => ({
+    rooms: s1,
+    status: s2(channel),
+  }),
+);
+export const categoryRoomsSelector = createSelector(
+  categoryRoomsStateSelector,
+  myProgressStateSelector,
+  (s1, s2) => (category_id: string, channel: Channel) => ({
+    rooms: s1(category_id),
+    status: s2(channel),
+  }),
 );
