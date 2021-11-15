@@ -17,6 +17,14 @@ JSONSerializer.register(roomJSONType, {
 });
 
 // API
+export async function getRoomApi(roomId: string): Promise<UpsertRoomProps> {
+  const base = axios.create({
+    baseURL: CommonConstants.BACK_HOST,
+  });
+  const response = await base.get<JSONAPIDocument>(`/v1/rooms/${roomId}`);
+  return JSONSerializer.deserialize<UpsertRoomProps>(roomJSONType, response.data);
+}
+
 export async function getRoomsApi(): Promise<UpsertRoomProps[]> {
   const base = axios.create({
     baseURL: CommonConstants.BACK_HOST,
@@ -25,10 +33,10 @@ export async function getRoomsApi(): Promise<UpsertRoomProps[]> {
   return JSONSerializer.deserialize<UpsertRoomProps[]>(roomJSONType, response.data);
 }
 
-export async function getCategoryRoomsApi(category_id: string): Promise<UpsertRoomProps[]> {
+export async function getCategoryRoomsApi(categoryId: string): Promise<UpsertRoomProps[]> {
   const base = axios.create({
     baseURL: CommonConstants.BACK_HOST,
   });
-  const response = await base.get<JSONAPIDocument>(`/v1/categories/${category_id}/rooms`);
+  const response = await base.get<JSONAPIDocument>(`/v1/categories/${categoryId}/rooms`);
   return JSONSerializer.deserialize<UpsertRoomProps[]>(roomJSONType, response.data);
 }

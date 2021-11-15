@@ -11,6 +11,7 @@ export interface RoomFields {
   name: string;
   description?: string;
   latest?: boolean;
+  created_at: string;
   creator_id?: number; // TODO: User
   categories?: string[];
   categoriesM?: ModelType<Category>; // TODO: main, sub の扱いについて
@@ -30,6 +31,7 @@ export class Room extends Model<typeof Room, RoomFields> {
     name: attr(),
     description: attr(),
     latest: attr(),
+    created_at: attr(),
     categories: many({ to: 'Category', as: 'categoriesM' }),
     // TODO: User
     // creator_id: fk({
@@ -51,9 +53,10 @@ Room.reducer = (action: RoomActionType, modelType: ModelType<Room>, _session) =>
     case RoomActionLabel.UPSERT_ROOMS:
       action.payload.forEach?.((room) => modelType.upsert(room));
       break;
+    case RoomActionLabel.GET_ROOM:
     case RoomActionLabel.GET_CATEGORY_ROOMS:
     case RoomActionLabel.GET_LATEST_ROOMS:
-      break; // 何もしない
+      break;
     case RoomActionLabel.UPSERT_LATEST_ROOMS:
       action.payload.forEach?.((room) => {
         room.latest = true;

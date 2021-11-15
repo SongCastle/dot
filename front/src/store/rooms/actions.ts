@@ -13,14 +13,23 @@ export type UpsertRoomProps = UpsertProps<Room>;
 export const createRoom = createAction(RoomActionLabel.CREATE_ROOM, (room: CreateRoomProps) => ({
   payload: room,
 }));
+export const getRoom = createAction(
+  RoomActionLabel.GET_ROOM,
+  (roomId: string, channel: Channel) => ({
+    payload: {
+      roomId,
+      channel,
+    },
+  }),
+);
 export const upsertRoom = createAction(RoomActionLabel.UPSERT_ROOM, (room: UpsertRoomProps) => ({
   payload: room,
 }));
 export const getCategoryRooms = createAction(
   RoomActionLabel.GET_CATEGORY_ROOMS,
-  (category_id: string, channel: Channel) => ({
+  (categoryId: string, channel: Channel) => ({
     payload: {
-      category_id,
+      categoryId,
       channel,
     },
   }),
@@ -48,6 +57,7 @@ export const upsertLatestRooms = createAction(
 );
 
 type CreateRoomType = ReturnType<typeof createRoom>;
+export type GetRoomType = ReturnType<typeof getRoom>;
 type UpsertRoomType = ReturnType<typeof upsertRoom>;
 type UpsertRoomsType = ReturnType<typeof upsertRooms>;
 export type GetCategoryRoomsType = ReturnType<typeof getCategoryRooms>;
@@ -56,6 +66,7 @@ type UpsertLatestRoomsType = ReturnType<typeof upsertLatestRooms>;
 
 export type RoomActionType =
   | CreateRoomType
+  | GetRoomType
   | UpsertRoomType
   | UpsertRoomsType
   | GetCategoryRoomsType
