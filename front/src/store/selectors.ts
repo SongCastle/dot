@@ -6,11 +6,18 @@ import { store } from './store';
 
 // ORM Selector
 const ormSelector = createSelector(store.getState, (state) => state.orm);
+export const categoryStateSelector = createSelector(
+  ormSelector,
+  (state) => (categoryId: string) => {
+    const category = orm.session(state).Category.withId(categoryId);
+    return category?.ref;
+  },
+);
 const latestCategoriesStateSelector = createSelector(ormSelector, (state) => {
   const categories = orm.session(state).Category.all().toRefArray();
   return categories.filter((category) => category.latest);
 });
-const roomStateSelector = createSelector(
+export const roomStateSelector = createSelector(
   ormSelector,
   (state) => (roomId: string) => orm.session(state).Room.withId(roomId)?.ref,
 );
@@ -47,7 +54,8 @@ export const roomSelector = createSelector(
     status: s2(channel),
   }),
 );
-export const latestRoomsSelector = createSelector(
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const latestRoomsSelector = createSelector(
   latestRoomsStateSelector,
   myProgressStateSelector,
   (s1, s2) => (channel: Channel) => ({
