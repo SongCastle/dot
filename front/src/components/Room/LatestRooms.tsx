@@ -31,18 +31,17 @@ export const LatestRooms: React.FC = () => {
     <>
       <h3 className='mb-2'>最新のルーム一覧</h3>
       <Progress status={status} callback={effectCallback}>
-        {(() => {
-          if (rooms.length === 0) return <p>存在しません...</p>;
-          return (
-            <ul>
-              {rooms.map(({ id, name }) => (
-                <li key={id}>
-                  <NavRoomButton id={id} name={name} />
-                </li>
-              ))}
-            </ul>
-          );
-        })()}
+        {rooms.length > 0 ? (
+          <ul>
+            {rooms.map(({ id, name }) => (
+              <li key={id}>
+                <NavRoomButton id={id} name={name} />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>存在しません...</p>
+        )}
       </Progress>
     </>
   );
