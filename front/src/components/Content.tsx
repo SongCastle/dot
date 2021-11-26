@@ -1,14 +1,12 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import { LatestRooms } from './Room/LatestRooms';
-import { Room } from './Room/Room';
+import { LatestCategories } from './Category/LatestCategories';
+import { RoomDetail } from './Room/RoomDetail';
 
 export const Content: React.FC = () => (
-  <section className='border flex-grow p-2'>
-    <Switch>
-      <Route path='/rooms/:roomId' component={Room} />
-      <Route component={LatestRooms} />
-    </Switch>
-  </section>
+  <Switch>
+    <Route path='/rooms/:roomId' component={RoomDetail} />
+    <Route component={LatestCategories} />
+  </Switch>
 );

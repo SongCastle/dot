@@ -16,6 +16,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@emotion/react": "^11.6.0",
+    "@emotion/styled": "^11.6.0",
+    "@mui/material": "^5.1.0",
     "@reduxjs/toolkit": "^1.6.1",
     "axios": "^0.21.1",
     "connected-react-router": "^6.9.1",

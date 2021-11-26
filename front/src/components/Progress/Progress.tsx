@@ -1,3 +1,4 @@
+import { CircularProgress, Typography } from '@mui/material';
 import React, { useEffect } from 'react';
 import type { DependencyList, EffectCallback } from 'react';
 
@@ -16,8 +17,8 @@ export const Progress: React.FC<ProgressProp> = ({ children, callback, deps, sta
     if (status !== StatusState.SUCCESS) callback();
   }, deps);
 
-  if (status === StatusState.LOAD) return <p>ローディング中...</p>;
-  if (status === StatusState.FAIL) return <p>取得に失敗しました</p>;
+  if (status === StatusState.LOAD) return <CircularProgress />;
+  if (status === StatusState.FAIL) return <Typography>取得に失敗しました</Typography>;
   return <> {children} </>;
 };
 
