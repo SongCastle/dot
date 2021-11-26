@@ -1,17 +1,17 @@
+export { dispatch, history, runSaga, store } from './store';
+
 export {
-  dispatch,
-  runSaga,
-  store,
   categoryRoomsSelector,
+  roomSelector,
   latestCategoriesSelector,
   latestRoomsSelector,
-} from './store';
+} from './selectors';
 
 export { StatusState } from './progresses';
-export type { Channel } from './progresses';
+export type { Channel, StatusStateType } from './progresses';
 
 export { getLatestCategories } from './categories';
 export type { CategoryState } from './categories';
 
-export { getCategoryRooms, getLatestRooms } from './rooms';
+export { getRoom, getCategoryRooms, getLatestRooms } from './rooms';
 export type { RoomState } from './rooms';

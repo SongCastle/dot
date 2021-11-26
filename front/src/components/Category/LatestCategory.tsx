@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import isEqual from 'react-fast-compare';
 import { useSelector } from 'react-redux';
 import type { DefaultRootState } from 'react-redux';
 
-import { dispatch, getCategoryRooms, categoryRoomsSelector, StatusState } from '../../store';
+import { Progress } from '../Progress/Progress';
+import { NavRoomButton } from '../Room/NavRoomButton';
+import { dispatch, getCategoryRooms, categoryRoomsSelector } from '../../store';
 import type { Channel } from '../../store';
 
 type LatestCategoryProp = {
@@ -12,8 +14,8 @@ type LatestCategoryProp = {
 };
 
 const myCategoryRoomsSelector =
-  (state: DefaultRootState) => (category_id: string, channel: Channel) => {
-    const { rooms, status } = categoryRoomsSelector(state)(category_id, channel);
+  (state: DefaultRootState) => (categoryId: string, channel: Channel) => {
+    const { rooms, status } = categoryRoomsSelector(state)(categoryId, channel);
     return {
       rooms: rooms.map(({ id, name }) => ({ id, name })),
       status,
@@ -27,20 +29,22 @@ export const LatestCategory: React.FC<LatestCategoryProp> = ({ id, name }) => {
     isEqual,
   );
 
-  useEffect(() => {
+  const effectCallback = () => {
     dispatch(getCategoryRooms(id, myChannel));
-  }, []);
+  };
 
   return (
     <div className='border my-2'>
       <p>{name}</p>
-      <ul className='pl-2'>
-        {status === StatusState.LOAD ? (
-          <li>ローディング中...</li>
-        ) : (
-          rooms.map(({ id, name }) => <li key={id}>{name}</li>)
-        )}
-      </ul>
+      <Progress status={status} callback={effectCallback}>
+        <ul className='pl-2'>
+          {rooms.map((room) => (
+            <li key={room.id}>
+              <NavRoomButton id={room.id} name={room.name} />
+            </li>
+          ))}
+        </ul>
+      </Progress>
     </div>
   );
 };

@@ -1,29 +1,49 @@
 import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
 
-import { getCategoryRooms, getLatestRooms, upsertRooms, upsertLatestRooms } from './actions';
-import type { GetLatestRoomsType, UpsertRoomProps, GetCategoryRoomsType } from './actions';
-import { getRoomsApi, getCategoryRoomsApi } from './api';
+import {
+  getRoom,
+  getCategoryRooms,
+  getLatestRooms,
+  upsertRoom,
+  upsertRooms,
+  upsertLatestRooms,
+} from './actions';
+import type {
+  GetRoomType,
+  GetLatestRoomsType,
+  UpsertRoomProps,
+  GetCategoryRoomsType,
+} from './actions';
+import { getRoomApi, getRoomsApi, getCategoryRoomsApi } from './api';
 
-import { updateProgressToLoad, updateProgressToSuccess } from '../progresses';
+import { progressHandler } from '../progresses';
 
-function* requestRooms({ payload }: GetLatestRoomsType): Generator<any, void, UpsertRoomProps[]> {
-  yield put(updateProgressToLoad(payload.channel));
-  const rooms = yield call(getRoomsApi);
-  yield put(upsertLatestRooms(rooms));
-  yield put(updateProgressToSuccess(payload.channel));
+// TODO: store の状況を考慮したい
+function* requestRoom(roomId: string): Generator<any, void, UpsertRoomProps> {
+  const room = yield call(() => getRoomApi(roomId));
+  yield put(upsertRoom(room));
 }
 
-function* requestCategoryRooms({
-  payload,
-}: GetCategoryRoomsType): Generator<any, void, UpsertRoomProps[]> {
-  yield put(updateProgressToLoad(payload.channel));
-  // TODO: store の状況を考慮したい
-  const rooms = yield call(() => getCategoryRoomsApi(payload.category_id));
+function* requestRooms(): Generator<any, void, UpsertRoomProps[]> {
+  const rooms = yield call(getRoomsApi);
+  yield put(upsertLatestRooms(rooms));
+}
+
+function* requestCategoryRooms(categoryId: string): Generator<any, void, UpsertRoomProps[]> {
+  const rooms = yield call(() => getCategoryRoomsApi(categoryId));
   yield put(upsertRooms(rooms));
-  yield put(updateProgressToSuccess(payload.channel));
 }
 
 export function* watchRoomsRequest() {
-  yield takeLatest(getLatestRooms, requestRooms);
-  yield takeEvery(getCategoryRooms, requestCategoryRooms);
+  yield takeEvery(getRoom, ({ payload: { channel, roomId } }: GetRoomType) =>
+    progressHandler(channel, requestRoom(roomId)),
+  );
+
+  yield takeLatest(getLatestRooms, ({ payload: { channel } }: GetLatestRoomsType) =>
+    progressHandler(channel, requestRooms()),
+  );
+
+  yield takeEvery(getCategoryRooms, ({ payload: { channel, categoryId } }: GetCategoryRoomsType) =>
+    progressHandler(channel, requestCategoryRooms(categoryId)),
+  );
 }

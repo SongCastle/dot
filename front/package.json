@@ -7,7 +7,7 @@
   "scripts": {
     "start": "webpack serve --config webpack.config.dev.ts",
     "build": "webpack --config webpack.config.prd.ts",
-    "lint": "npx eslint .",
+    "eslint": "npx eslint .",
     "fix:eslint": "npx eslint --fix .",
     "fix:prettier": "npx prettier --write .",
     "postinstall": "npx patch-package@^6.4.7"
@@ -18,6 +18,8 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.1",
     "axios": "^0.21.1",
+    "connected-react-router": "^6.9.1",
+    "history": "^4.7.2",
     "json-api-serializer": "^2.6.5",
     "postcss-preset-env": "^6.7.0",
     "react": "^17.0.2",
@@ -30,6 +32,7 @@
     "tailwindcss": "^2.2.7"
   },
   "devDependencies": {
+    "@types/history": "^4.7.9",
     "@types/json-api-serializer": "2.6.3",
     "@types/postcss-preset-env": "^6.7.3",
     "@types/react": "^17.0.19",

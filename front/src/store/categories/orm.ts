@@ -10,6 +10,7 @@ interface CategoryFields {
   id: string;
   name: string;
   latest?: boolean;
+  created_at: string;
   creator_id?: number; // TODO: User
   rooms?: string[];
   roomsM?: ModelType<Room>;
@@ -28,6 +29,7 @@ export class Category extends Model<typeof Category, CategoryFields> {
     id: attr(),
     name: attr(),
     latest: attr(),
+    created_at: attr(),
     rooms: many({ to: 'Room', as: 'roomsM' }),
     // TODO: User
     // creator_id: fk({
@@ -47,7 +49,7 @@ Category.reducer = (action: GategoryActionType, modelType: ModelType<Category>, 
       modelType.upsert(action.payload);
       break;
     case CategoryActionLabel.GET_LATEST_CATEGORIES:
-      break; // 何もしない
+      break;
     case CategoryActionLabel.UPSERT_LATEST_CATEGORIES:
       action.payload.forEach?.((category) => {
         category.latest = true;
