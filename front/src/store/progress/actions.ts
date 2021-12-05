@@ -4,7 +4,7 @@ import { ProgressActionLabel } from './constants';
 import type { StatusStateType } from './constants';
 
 export type Channel = string;
-export type ProgressStates = { [key: Channel]: StatusStateType };
+export type ProgressState = { [key: Channel]: StatusStateType };
 
 export const channelPayloader = (channel: Channel) => ({
   payload: {

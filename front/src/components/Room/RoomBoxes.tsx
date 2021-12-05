@@ -1,11 +1,10 @@
 import { Box, Grid, Typography } from '@mui/material';
 import React from 'react';
 import isEqual from 'react-fast-compare';
-import { useSelector } from 'react-redux';
 
 import { RoomBox } from './RoomBox';
 import { Progress } from '../Progress/Progress';
-import { dispatch, categoryRoomsSelector, getCategoryRooms } from '../../store';
+import { dispatch, useAppSelector, categoryRoomsSelector, getCategoryRooms } from '../../store';
 import type { Channel } from '../../store';
 
 type RoomBoxesProp = {
@@ -14,7 +13,7 @@ type RoomBoxesProp = {
 
 export const RoomBoxes: React.FC<RoomBoxesProp> = ({ categoryId }) => {
   const myChannel: Channel = `RoomBoxes-${categoryId}`;
-  const { rooms, status } = useSelector(
+  const { rooms, status } = useAppSelector(
     (state) => categoryRoomsSelector(state)(categoryId, myChannel),
     isEqual,
   );

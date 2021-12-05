@@ -2,21 +2,24 @@ import { Button, Card, CardActions, CardContent, Typography } from '@mui/materia
 import { replace } from 'connected-react-router';
 import React from 'react';
 import isEqual from 'react-fast-compare';
-import { useSelector } from 'react-redux';
 
-import { dispatch, roomStateSelector } from '../../store';
+import { CategoryChips } from '../Category/CategoryChips';
+
+import { dispatch, useAppSelector, roomStateSelector } from '../../store';
 
 type RoomBoxProp = {
   id: string;
 };
 
 export const RoomBox: React.FC<RoomBoxProp> = ({ id }) => {
-  const room = useSelector((state) => roomStateSelector(state)(id), isEqual);
+  const room = useAppSelector((state) => roomStateSelector(state)(id), isEqual);
 
-  return (
+  return room ? (
     <Card>
       <CardContent>
-        <Typography>{room ? room.name : '存在しないルーム'}</Typography>
+        <Typography gutterBottom>{room.name}</Typography>
+        {/* TODO: 閲覧しているユーザ数を表示したい */}
+        <CategoryChips roomId={id} />
       </CardContent>
       <CardActions>
         <Button
@@ -27,6 +30,12 @@ export const RoomBox: React.FC<RoomBoxProp> = ({ id }) => {
           表示
         </Button>
       </CardActions>
+    </Card>
+  ) : (
+    <Card>
+      <CardContent>
+        <Typography gutterBottom>存在しないルーム</Typography>
+      </CardContent>
     </Card>
   );
 };

@@ -2,11 +2,10 @@ import { Button, Card, CardActions, CardContent, Typography } from '@mui/materia
 import { replace } from 'connected-react-router';
 import React from 'react';
 import isEqual from 'react-fast-compare';
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { Progress } from '../Progress/Progress';
-import { dispatch, getRoom, roomSelector } from '../../store';
+import { dispatch, useAppSelector, getRoom, roomSelector } from '../../store';
 import type { Channel } from '../../store';
 
 type RoomParams = { roomId: string };
@@ -14,7 +13,10 @@ type RoomParams = { roomId: string };
 export const RoomDetail: React.FC = () => {
   const { roomId } = useParams<RoomParams>();
   const myChnnel: Channel = `RoomDetail-${roomId}`;
-  const { room, status } = useSelector((state) => roomSelector(state)(roomId, myChnnel), isEqual);
+  const { room, status } = useAppSelector(
+    (state) => roomSelector(state)(roomId, myChnnel),
+    isEqual,
+  );
 
   // TODO: カテゴリの表示
   return (
@@ -24,8 +26,7 @@ export const RoomDetail: React.FC = () => {
         <Progress
           status={status}
           callback={() => {
-            // TODO: room の存在判定を saga に含めたい
-            if (!room) dispatch(getRoom(roomId, myChnnel));
+            dispatch(getRoom(roomId, myChnnel));
           }}
           deps={[roomId]}
         >

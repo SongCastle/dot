@@ -1,5 +1,5 @@
-import { attr, many, Model } from 'redux-orm';
-import type { ModelType, Ref } from 'redux-orm';
+import { attr, fk, many, Model } from 'redux-orm';
+import type { ModelType, Ref, SessionBoundModel } from 'redux-orm';
 
 import type { RoomActionType } from './actions';
 import { RoomActionLabel } from './constants';
@@ -13,10 +13,13 @@ export interface RoomFields {
   latest?: boolean;
   created_at: string;
   creator_id?: number; // TODO: User
-  categories?: string[];
-  categoriesM?: ModelType<Category>; // TODO: main, sub の扱いについて
+  main_category?: string;
+  sub_categories?: string[];
+  mainCategoryM?: SessionBoundModel<Category>;
+  subCategoriesM?: ModelType<Category>;
 }
-export type RoomState = Ref<Category> & Readonly<Pick<RoomFields, 'categories'>>;
+export type RoomState = Ref<Category> &
+  Readonly<Pick<RoomFields, 'main_category' | 'sub_categories'>>;
 
 export class Room extends Model<typeof Room, RoomFields> {
   static override modelName = 'Room' as const;
@@ -32,7 +35,8 @@ export class Room extends Model<typeof Room, RoomFields> {
     description: attr(),
     latest: attr(),
     created_at: attr(),
-    categories: many({ to: 'Category', as: 'categoriesM' }),
+    main_category: fk({ to: 'Category', as: 'mainCategoryM', relatedName: 'main_room' }),
+    sub_categories: many({ to: 'Category', as: 'subCategoriesM', relatedName: 'sub_rooms' }),
     // TODO: User
     // creator_id: fk({
     //   to: 'User',

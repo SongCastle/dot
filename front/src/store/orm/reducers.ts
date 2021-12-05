@@ -1,4 +1,5 @@
 import { createReducer, ORM } from 'redux-orm';
+import type { OrmState } from 'redux-orm';
 
 import { Category } from './categories';
 import { Room } from './rooms';
@@ -13,6 +14,11 @@ const models = Object.values(indexedModels).map((data) => data);
 // ORM
 export const orm = new ORM<typeof indexedModels>({ stateSelector: (state) => state.orm });
 orm.register(...models);
+
+export type AppOrmState = OrmState<{
+  Category: typeof Category;
+  Room: typeof Room;
+}>;
 
 // Reducer
 export const reducer = createReducer(orm);

@@ -4,13 +4,16 @@ import type { UpsertRoomProps } from './actions';
 import { roomJSONType } from './constants';
 
 import { categoryJSONType } from '../categories';
-import { CommonConstants, JSONSerializer } from '../common';
-import type { JSONAPIDocument } from '../common';
+import { CommonConstants, JSONSerializer } from '../../common';
+import type { JSONAPIDocument } from '../../common';
 
 // JSON API
 JSONSerializer.register(roomJSONType, {
   relationships: {
-    tags: {
+    sub_categories: {
+      type: categoryJSONType,
+    },
+    main_category: {
       type: categoryJSONType,
     },
   },

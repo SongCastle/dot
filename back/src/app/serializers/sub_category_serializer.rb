@@ -1,0 +1,2 @@
+class SubCategorySerializer < CategorySerializer
+end
