@@ -7,7 +7,6 @@ type CategoryChipProp = {
   size?: 'small' | 'medium';
 };
 
-const defaultSize = 'small';
 // TODO: カテゴリ名を選択したら、フィルタリングしたい
 export const CategoryChip: React.FC<CategoryChipProp> = ({ name, isMain, size }) =>
   isMain ? <Chip label={name} size={size} /> : <Chip label={name} variant='outlined' size={size} />;
