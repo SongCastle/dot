@@ -17,6 +17,7 @@ export { dispatch, store } from './store';
 
 export {
   useAppSelector,
+  useAppObjectSelector,
   categoryStateSelector,
   roomMainCategoryStateSelector,
   roomSubCategoriesStateSelector,

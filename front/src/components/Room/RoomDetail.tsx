@@ -1,11 +1,10 @@
 import { Button, Card, CardActions, CardContent, Typography } from '@mui/material';
 import { replace } from 'connected-react-router';
 import React from 'react';
-import isEqual from 'react-fast-compare';
 import { useParams } from 'react-router-dom';
 
 import { Progress } from '../Progress/Progress';
-import { dispatch, useAppSelector, getRoom, roomSelector } from '../../store';
+import { dispatch, useAppObjectSelector, getRoom, roomSelector } from '../../store';
 import type { Channel } from '../../store';
 
 type RoomParams = { roomId: string };
@@ -13,10 +12,7 @@ type RoomParams = { roomId: string };
 export const RoomDetail: React.FC = () => {
   const { roomId } = useParams<RoomParams>();
   const myChnnel: Channel = `RoomDetail-${roomId}`;
-  const { room, status } = useAppSelector(
-    (state) => roomSelector(state)(roomId, myChnnel),
-    isEqual,
-  );
+  const { room, status } = useAppObjectSelector((state) => roomSelector(state)(roomId, myChnnel));
 
   // TODO: カテゴリの表示
   return (

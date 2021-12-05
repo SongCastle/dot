@@ -1,5 +1,4 @@
 import React from 'react';
-import isEqual from 'react-fast-compare';
 import { Grid } from '@mui/material';
 
 import { Progress } from '../Progress/Progress';
@@ -8,6 +7,7 @@ import { CategoryChip } from './CategoryChip';
 import {
   dispatch,
   useAppSelector,
+  useAppObjectSelector,
   getRoomCategories,
   roomMainCategoryStateSelector,
   roomSubCategoriesStateSelector,
@@ -21,20 +21,15 @@ type CategoryChipsProp = {
 
 export const CategoryChips: React.FC<CategoryChipsProp> = ({ roomId }) => {
   const myChannel: Channel = `CategoryChips-${roomId}`;
+  const status = useAppSelector((state) => myProgressStateSelector(state)(myChannel));
+  const mainCategory = useAppObjectSelector((state) =>
+    roomMainCategoryStateSelector(state)(roomId),
+  );
+  const subCategories = useAppObjectSelector((state) =>
+    roomSubCategoriesStateSelector(state)(roomId),
+  );
 
   // TODO: トップページのカテゴリーの分類について ...
-  const status = useAppSelector((state) => myProgressStateSelector(state)(myChannel), isEqual);
-
-  const mainCategory = useAppSelector(
-    (state) => roomMainCategoryStateSelector(state)(roomId),
-    isEqual,
-  );
-
-  const subCategories = useAppSelector(
-    (state) => roomSubCategoriesStateSelector(state)(roomId),
-    isEqual,
-  );
-
   return (
     <Progress
       status={status}

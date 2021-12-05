@@ -1,13 +1,12 @@
 import { Box, Grid, Typography } from '@mui/material';
 import React from 'react';
-import isEqual from 'react-fast-compare';
 
 import { LatestCategory } from './LatestCategory';
 import { Progress } from '../Progress/Progress';
 
 import {
   dispatch,
-  useAppSelector,
+  useAppObjectSelector,
   getLatestCategories,
   latestCategoriesSelector,
 } from '../../store';
@@ -16,9 +15,8 @@ import type { Channel } from '../../store';
 const myChannel: Channel = 'LatestCategories';
 
 export const LatestCategories: React.FC = () => {
-  const { categories, status } = useAppSelector(
-    (state) => latestCategoriesSelector(state)(myChannel),
-    isEqual,
+  const { categories, status } = useAppObjectSelector((state) =>
+    latestCategoriesSelector(state)(myChannel),
   );
 
   return (
