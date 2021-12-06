@@ -32,10 +32,12 @@ export const categoryStateSelector = createSelector(
     return category?.ref;
   },
 );
-const latestCategoriesStateSelector = createSelector(ormSelector, (state) => {
-  const categories = orm.session(state).Category.all().toRefArray();
-  return categories.filter((category) => category.latest);
-});
+const latestCategoriesStateSelector = createSelector(ormSelector, (state) =>
+  orm
+    .session(state)
+    .Category.filter((category) => !!category.latest)
+    .toRefArray(),
+);
 export const roomMainCategoryStateSelector = createSelector(
   ormSelector,
   (state) => (roomId: string) => {
@@ -54,10 +56,13 @@ export const roomStateSelector = createSelector(
   ormSelector,
   (state) => (roomId: string) => orm.session(state).Room.withId(roomId)?.ref,
 );
-const latestRoomsStateSelector = createSelector(ormSelector, (state) => {
-  const rooms = orm.session(state).Room.all().toRefArray();
-  return rooms.filter((room) => room.latest);
-});
+const latestRoomsStateSelector = createSelector(ormSelector, (state) =>
+  orm
+    .session(state)
+    .Room.filter((room) => !!room.latest)
+    .orderBy((room) => room.id, 'desc')
+    .toRefArray(),
+);
 const categoryRoomsStateSelector = createSelector(ormSelector, (state) => (categoryId: string) => {
   const category = orm.session(state).Category.withId(categoryId);
   return category?.roomsM?.all().toRefArray() || [];
@@ -101,8 +106,7 @@ export const roomSelector = createSelector(
     status: s2(channel),
   }),
 );
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const latestRoomsSelector = createSelector(
+export const latestRoomsSelector = createSelector(
   latestRoomsStateSelector,
   myProgressStateSelector,
   (s1, s2) => (channel: Channel) => ({

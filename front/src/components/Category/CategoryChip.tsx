@@ -8,8 +8,9 @@ type CategoryChipProp = {
 };
 
 // TODO: カテゴリ名を選択したら、フィルタリングしたい
-export const CategoryChip: React.FC<CategoryChipProp> = ({ name, isMain, size }) =>
-  <Chip label={name} variant={isMain ? undefined : 'outlined'} size={size} />;
+export const CategoryChip: React.FC<CategoryChipProp> = ({ name, isMain, size }) => (
+  <Chip label={name} variant={isMain ? undefined : 'outlined'} size={size} />
+);
 
 CategoryChip.defaultProps = {
   isMain: false,

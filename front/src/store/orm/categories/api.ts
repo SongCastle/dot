@@ -17,13 +17,13 @@ JSONSerializer.register(categoryJSONType, {
 });
 
 // API
-export async function getMainCategoriesApi(): Promise<UpsertCategoryProps[]> {
+export async function getCategoriesApi(type?: 'main' | 'sub'): Promise<UpsertCategoryProps[]> {
   const base = axios.create({
     baseURL: CommonConstants.BACK_HOST,
   });
   const response = await base.get<JSONAPIDocument>('/v1/categories', {
     params: {
-      type: 'main',
+      type,
     },
   });
   return JSONSerializer.deserialize<UpsertCategoryProps[]>(categoryJSONType, response.data);
