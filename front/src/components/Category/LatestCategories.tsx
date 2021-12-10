@@ -1,24 +1,27 @@
 import { Box, Grid, Typography } from '@mui/material';
 import React from 'react';
-import isEqual from 'react-fast-compare';
-import { useSelector } from 'react-redux';
 
 import { LatestCategory } from './LatestCategory';
 import { Progress } from '../Progress/Progress';
 
-import { dispatch, getLatestCategories, latestCategoriesSelector } from '../../store';
+import {
+  dispatch,
+  useAppObjectSelector,
+  getLatestCategories,
+  latestCategoriesSelector,
+} from '../../store';
 import type { Channel } from '../../store';
 
 const myChannel: Channel = 'LatestCategories';
 
 export const LatestCategories: React.FC = () => {
-  const { categories, status } = useSelector(
-    (state) => latestCategoriesSelector(state)(myChannel),
-    isEqual,
+  const { categories, status } = useAppObjectSelector((state) =>
+    latestCategoriesSelector(state)(myChannel),
   );
 
   return (
     <Box>
+      {/* TODO: 「最新」「カテゴリ一覧」をタブにしたい */}
       <Typography gutterBottom>カテゴリ一覧</Typography>
       <Progress
         status={status}

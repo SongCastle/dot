@@ -3,7 +3,7 @@ import { createAction } from '@reduxjs/toolkit';
 
 import { RoomActionLabel } from './constants';
 import { Room } from './orm';
-import type { Channel } from '../progresses';
+import type { Channel } from '../../progress';
 
 // Prop
 type CreateRoomProps = CreateProps<Room>;

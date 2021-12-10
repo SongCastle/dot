@@ -6,12 +6,12 @@ import {
   updateProgressToSuccess,
   updateProgressToFail,
 } from './actions';
-import type { ProgressStates } from './actions';
+import type { ProgressState } from './actions';
 import { StatusState } from './constants';
 
-const initialProgressStates: ProgressStates = {};
+const initialProgressState: ProgressState = {};
 
-export const reducer = createReducer<ProgressStates>(initialProgressStates, (builder) => {
+export const reducer = createReducer<ProgressState>(initialProgressState, (builder) => {
   builder
     .addCase(updateProgressToIdle, (state, { payload }) => {
       state[payload.channel] = StatusState.IDLE;

@@ -45,8 +45,10 @@ Category.reducer = (action: GategoryActionType, modelType: ModelType<Category>, 
     case CategoryActionLabel.CREATE_CATEGORY:
       modelType.create(action.payload);
       break;
-    case CategoryActionLabel.UPSERT_CATEGORY:
-      modelType.upsert(action.payload);
+    case CategoryActionLabel.UPSERT_CATEGORIES:
+      action.payload.forEach?.((category) => {
+        modelType.upsert(category);
+      });
       break;
     case CategoryActionLabel.GET_LATEST_CATEGORIES:
       break;

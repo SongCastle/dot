@@ -3,7 +3,7 @@ import { createAction } from '@reduxjs/toolkit';
 
 import { CategoryActionLabel } from './constants';
 import { Category } from './orm';
-import type { Channel } from '../progresses';
+import type { Channel } from '../../progress';
 
 // Prop
 type CreateCategoryProps = CreateProps<Category>;
@@ -16,16 +16,25 @@ export const createCategory = createAction(
     payload: category,
   }),
 );
-export const upsertCategory = createAction(
-  CategoryActionLabel.UPSERT_CATEGORY,
-  (category: UpsertCategoryProps) => ({
-    payload: category,
+export const upsertCategories = createAction(
+  CategoryActionLabel.UPSERT_CATEGORIES,
+  (categories: UpsertCategoryProps[]) => ({
+    payload: categories,
   }),
 );
 export const getLatestCategories = createAction(
   CategoryActionLabel.GET_LATEST_CATEGORIES,
   (channel: Channel) => ({
     payload: {
+      channel,
+    },
+  }),
+);
+export const getRoomCategories = createAction(
+  CategoryActionLabel.GET_ROOM_CATEGORIES,
+  (roomId: string, channel: Channel) => ({
+    payload: {
+      roomId,
       channel,
     },
   }),
@@ -38,12 +47,14 @@ export const upsertLatestCategories = createAction(
 );
 
 type CreateCategoryType = ReturnType<typeof createCategory>;
-type UpsertCategoryType = ReturnType<typeof upsertCategory>;
+type UpsertCategoriesType = ReturnType<typeof upsertCategories>;
 export type GetLatestCategoriesType = ReturnType<typeof getLatestCategories>;
+export type GetRoomCategoriesType = ReturnType<typeof getRoomCategories>;
 type UpsertLatestCategoriesType = ReturnType<typeof upsertLatestCategories>;
 
 export type GategoryActionType =
   | CreateCategoryType
-  | UpsertCategoryType
+  | UpsertCategoriesType
   | GetLatestCategoriesType
+  | GetRoomCategoriesType
   | UpsertLatestCategoriesType;

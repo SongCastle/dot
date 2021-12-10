@@ -3,8 +3,8 @@ import axios from 'axios';
 import { UpsertCategoryProps } from './actions';
 import { categoryJSONType } from './constants';
 
-import { CommonConstants, JSONSerializer } from '../common';
-import type { JSONAPIDocument } from '../common';
+import { CommonConstants, JSONSerializer } from '../../common';
+import type { JSONAPIDocument } from '../../common';
 import { roomJSONType } from '../rooms';
 
 // JSON API
@@ -26,5 +26,13 @@ export async function getMainCategoriesApi(): Promise<UpsertCategoryProps[]> {
       type: 'main',
     },
   });
+  return JSONSerializer.deserialize<UpsertCategoryProps[]>(categoryJSONType, response.data);
+}
+
+export async function getRoomCategoriesApi(roomId: string): Promise<UpsertCategoryProps[]> {
+  const base = axios.create({
+    baseURL: CommonConstants.BACK_HOST,
+  });
+  const response = await base.get<JSONAPIDocument>(`/v1/rooms/${roomId}/categories`);
   return JSONSerializer.deserialize<UpsertCategoryProps[]>(categoryJSONType, response.data);
 }

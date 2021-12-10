@@ -3,10 +3,7 @@ import { put } from 'redux-saga/effects';
 import { updateProgressToLoad, updateProgressToSuccess, updateProgressToFail } from './actions';
 import type { Channel } from './actions';
 
-export function* progressHandler<T>(
-  channel: Channel,
-  process: Generator<any, void, T>,
-): Generator<any, void, void> {
+export function* progressHandler<T>(channel: Channel, process: Generator<any, void, T>) {
   yield put(updateProgressToLoad(channel));
   try {
     yield process;
