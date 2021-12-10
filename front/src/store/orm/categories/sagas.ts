@@ -11,7 +11,7 @@ import type {
   GetLatestCategoriesType,
   UpsertCategoryProps,
 } from './actions';
-import { getMainCategoriesApi, getRoomCategoriesApi } from './api';
+import { getCategoriesApi, getRoomCategoriesApi } from './api';
 
 import type { RoomState } from '../rooms';
 
@@ -22,7 +22,7 @@ import { roomStateSelector, categoriesStateChecker } from '../../selectors';
 import type { RootState } from '../../selectors';
 
 function* requestCategories() {
-  const categories: UpsertCategoryProps[] = yield call(getMainCategoriesApi);
+  const categories: UpsertCategoryProps[] = yield call(getCategoriesApi);
   yield put(upsertLatestCategories(categories));
 }
 

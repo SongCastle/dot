@@ -25,5 +25,6 @@ export {
   myProgressStateSelector,
   categoryRoomsSelector,
   roomSelector,
+  latestRoomsSelector,
   latestCategoriesSelector,
 } from './selectors';
