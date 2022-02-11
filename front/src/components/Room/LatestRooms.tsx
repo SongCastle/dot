@@ -1,43 +1,42 @@
-import { Box, Card, CardContent, Grid, Typography } from '@mui/material';
-import React from 'react';
+import { Typography } from '@mui/material';
+import React, { useState, FC } from 'react';
 
-import { RoomBox } from './RoomBox';
+import { RoomBoxes } from './RoomBoxes';
+import { BasicPaper } from '../Common/BasicPaper';
 import { Progress } from '../Progress/Progress';
 
-import { dispatch, useAppObjectSelector, latestRoomsSelector, getLatestRooms } from '../../store';
+import {
+  dispatch,
+  upsertRooms,
+  getLatestRoomsAPI,
+  useAppSelector,
+  myUIStateSelector,
+} from '../../store';
 import type { Channel } from '../../store';
 
 const myChannel: Channel = 'LatestRooms';
 
-export const LatestRooms: React.FC = () => {
-  const { rooms, status } = useAppObjectSelector((state) => latestRoomsSelector(state)(myChannel));
+export const LatestRooms: FC = () => {
+  const [ids, setRoomIds] = useState<string[]>([]);
+  const status = useAppSelector((state) => myUIStateSelector(state)(myChannel));
 
   // TODO: ユーザに紐づく最新のルームにしたい ...
   return (
-    <Card>
-      <CardContent>
-        <Typography gutterBottom>最新のルーム</Typography>
-        <Progress
-          status={status}
-          callback={() => {
-            dispatch(getLatestRooms(myChannel));
-          }}
-        >
-          <Box my={2}>
-            {rooms.length > 0 ? (
-              <Grid container spacing={5}>
-                {rooms.map(({ id }) => (
-                  <Grid item key={id} xs={4}>
-                    <RoomBox id={id} />
-                  </Grid>
-                ))}
-              </Grid>
-            ) : (
-              <Typography>存在しません ...</Typography>
-            )}
-          </Box>
-        </Progress>
-      </CardContent>
-    </Card>
+    <BasicPaper>
+      <Typography gutterBottom>最新のルーム</Typography>
+      <Progress
+        status={status}
+        callback={() => {
+          dispatch(
+            getLatestRoomsAPI(myChannel, (rooms) => {
+              setRoomIds(rooms.map(({ id }) => id));
+              dispatch(upsertRooms(rooms));
+            }),
+          );
+        }}
+      >
+        <RoomBoxes ids={ids} />
+      </Progress>
+    </BasicPaper>
   );
 };

@@ -1,13 +1,30 @@
-import React from 'react';
+import { Box } from '@mui/material';
+import queryString from 'query-string';
+import React, { FC } from 'react';
 
-import { Footer } from './Footer';
-import { Header } from './Header';
-import { Main } from './Main';
+import { Logo } from './Common/Logo';
+import { SearchBox } from './Common/SearchBox';
 
-export const Top: React.FC = () => (
-  <>
-    <Header />
-    <Main />
-    <Footer />
-  </>
+import { dispatchPath } from '../store';
+
+export const Top: FC = () => (
+  <Box
+    sx={{
+      alignItems: 'center',
+      display: 'flex',
+      height: '100%',
+      justifyContent: 'center',
+    }}
+  >
+    <Box sx={{ width: '100%', marginBottom: '3rem' }}>
+      <Logo />
+      <SearchBox
+        sx={{ width: 'min(95%, 320px)', marginTop: '0.5rem' }}
+        onSubmit={(text) => {
+          const params = queryString.stringify({ keyword: text });
+          dispatchPath(`/rooms/search?${params}`);
+        }}
+      />
+    </Box>
+  </Box>
 );

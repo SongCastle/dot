@@ -1,5 +1,5 @@
 import { Chip } from '@mui/material';
-import React from 'react';
+import React, { FC } from 'react';
 
 type CategoryChipProp = {
   name: string;
@@ -8,7 +8,7 @@ type CategoryChipProp = {
 };
 
 // TODO: カテゴリ名を選択したら、フィルタリングしたい
-export const CategoryChip: React.FC<CategoryChipProp> = ({ name, isMain, size }) => (
+export const CategoryChip: FC<CategoryChipProp> = ({ name, isMain, size }) => (
   <Chip label={name} variant={isMain ? undefined : 'outlined'} size={size} />
 );
 

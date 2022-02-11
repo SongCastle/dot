@@ -1,18 +1,17 @@
 import { Button, Card, CardActions, CardContent, Typography } from '@mui/material';
-import { replace } from 'connected-react-router';
-import React from 'react';
+import React, { FC } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { Progress } from '../Progress/Progress';
-import { dispatch, useAppObjectSelector, getRoom, roomSelector } from '../../store';
+import { dispatch, dispatchPath, getRoom, useAppObjectSelector, roomSelector } from '../../store';
 import type { Channel } from '../../store';
 
 type RoomParams = { roomId: string };
 
-export const RoomDetail: React.FC = () => {
+export const RoomDetail: FC = () => {
   const { roomId } = useParams<RoomParams>();
-  const myChnnel: Channel = `RoomDetail-${roomId}`;
-  const { room, status } = useAppObjectSelector((state) => roomSelector(state)(roomId, myChnnel));
+  const myChannel: Channel = `RoomDetail-${roomId}`;
+  const { room, status } = useAppObjectSelector((state) => roomSelector(state)(roomId, myChannel));
 
   // TODO: カテゴリの表示
   return (
@@ -22,7 +21,7 @@ export const RoomDetail: React.FC = () => {
         <Progress
           status={status}
           callback={() => {
-            dispatch(getRoom(roomId, myChnnel));
+            dispatch(getRoom(myChannel, roomId));
           }}
           deps={[roomId]}
         >
@@ -41,7 +40,7 @@ export const RoomDetail: React.FC = () => {
         <Button
           // TODO: connected-react-router による再レンダリングを制限したい
           onClick={() => {
-            dispatch(replace('/rooms'));
+            dispatchPath('/latest');
           }}
         >
           最新のルーム一覧

@@ -1,50 +1,57 @@
-import { Card, CardContent, List, ListItem, ListItemText, Typography } from '@mui/material';
-import React from 'react';
+import { List, ListItem, ListItemText, Typography } from '@mui/material';
+import React, { useState, FC } from 'react';
 
 import { CategoryChip } from './CategoryChip';
+import { BasicPaper } from '../Common/BasicPaper';
 import { Progress } from '../Progress/Progress';
 
 import {
   dispatch,
+  upsertCategories,
+  getLatestCategoriesAPI,
+  useAppSelector,
   useAppObjectSelector,
-  getLatestCategories,
-  latestCategoriesSelector,
+  myUIStateSelector,
+  categoriesStateSelector,
 } from '../../store';
 import type { Channel } from '../../store';
 
 const myChannel: Channel = 'LatestCategoryList';
 
-export const LatestCategoryList: React.FC = () => {
-  const { categories, status } = useAppObjectSelector((state) =>
-    latestCategoriesSelector(state)(myChannel),
-  );
+export const LatestCategoryList: FC = () => {
+  const [ids, setCategoryIds] = useState<string[]>([]);
+  const status = useAppSelector((state) => myUIStateSelector(state)(myChannel));
+  const latestCategories = useAppObjectSelector((state) => categoriesStateSelector(state)(ids));
 
   // TODO: ユーザに紐づくカテゴリ一覧にしたい ...
   return (
-    <Card>
-      <CardContent>
-        <Typography>カテゴリ一覧</Typography>
-        <Progress
-          status={status}
-          callback={() => {
-            dispatch(getLatestCategories(myChannel));
-          }}
-        >
-          <List>
-            {categories.length > 0 ? (
-              categories.map(({ id, name }) => (
-                <ListItem dense key={id}>
-                  <CategoryChip name={name} />
-                </ListItem>
-              ))
-            ) : (
-              <ListItem>
-                <ListItemText primary='存在しません...' />
+    <BasicPaper>
+      <Typography>カテゴリ一覧</Typography>
+      <Progress
+        status={status}
+        callback={() => {
+          dispatch(
+            getLatestCategoriesAPI(myChannel, (categories) => {
+              setCategoryIds(categories.map(({ id }) => id));
+              dispatch(upsertCategories(categories));
+            }),
+          );
+        }}
+      >
+        <List>
+          {latestCategories.length > 0 ? (
+            latestCategories.map(({ id, name }) => (
+              <ListItem dense key={id}>
+                <CategoryChip name={name} />
               </ListItem>
-            )}
-          </List>
-        </Progress>
-      </CardContent>
-    </Card>
+            ))
+          ) : (
+            <ListItem>
+              <ListItemText primary='存在しません...' />
+            </ListItem>
+          )}
+        </List>
+      </Progress>
+    </BasicPaper>
   );
 };

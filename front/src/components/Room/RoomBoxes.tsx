@@ -1,46 +1,29 @@
 import { Box, Grid, Typography } from '@mui/material';
-import React from 'react';
+import React, { FC } from 'react';
 
 import { RoomBox } from './RoomBox';
-import { Progress } from '../Progress/Progress';
-import {
-  dispatch,
-  useAppObjectSelector,
-  categoryRoomsSelector,
-  getCategoryRooms,
-} from '../../store';
-import type { Channel } from '../../store';
+import { useAppObjectSelector, roomsStateSelector } from '../../store';
 
 type RoomBoxesProp = {
-  categoryId: string;
+  ids: string[];
 };
 
-export const RoomBoxes: React.FC<RoomBoxesProp> = ({ categoryId }) => {
-  const myChannel: Channel = `RoomBoxes-${categoryId}`;
-  const { rooms, status } = useAppObjectSelector((state) =>
-    categoryRoomsSelector(state)(categoryId, myChannel),
-  );
+export const RoomBoxes: FC<RoomBoxesProp> = ({ ids }) => {
+  const rooms = useAppObjectSelector((state) => roomsStateSelector(state)(ids));
 
   return (
-    <Box>
-      <Progress
-        status={status}
-        callback={() => {
-          dispatch(getCategoryRooms(categoryId, myChannel));
-        }}
-      >
-        {rooms.length > 0 ? (
-          <Grid container spacing={2}>
-            {rooms.map(({ id }) => (
-              <Grid item key={id} xs={4}>
-                <RoomBox id={id} />
-              </Grid>
-            ))}
-          </Grid>
-        ) : (
-          <Typography>存在しません ...</Typography>
-        )}
-      </Progress>
+    <Box my={2}>
+      {rooms.length > 0 ? (
+        <Grid container spacing={5}>
+          {rooms.map(({ id }) => (
+            <Grid item key={id} xs={4}>
+              <RoomBox id={id} />
+            </Grid>
+          ))}
+        </Grid>
+      ) : (
+        <Typography>存在しません ...</Typography>
+      )}
     </Box>
   );
 };

@@ -1,16 +1,14 @@
 import { Button, Card, CardActions, CardContent, Typography } from '@mui/material';
-import { replace } from 'connected-react-router';
-import React from 'react';
+import React, { FC } from 'react';
 
 import { CategoryChips } from '../Category/CategoryChips';
-
-import { dispatch, useAppObjectSelector, roomStateSelector } from '../../store';
+import { dispatchPath, useAppObjectSelector, roomStateSelector } from '../../store';
 
 type RoomBoxProp = {
   id: string;
 };
 
-export const RoomBox: React.FC<RoomBoxProp> = ({ id }) => {
+export const RoomBox: FC<RoomBoxProp> = ({ id }) => {
   const room = useAppObjectSelector((state) => roomStateSelector(state)(id));
 
   return room ? (
@@ -23,7 +21,7 @@ export const RoomBox: React.FC<RoomBoxProp> = ({ id }) => {
       <CardActions>
         <Button
           onClick={() => {
-            dispatch(replace(`/rooms/${id}`));
+            dispatchPath(`/rooms/${id}`);
           }}
         >
           表示

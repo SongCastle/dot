@@ -1,0 +1,6 @@
+export const CategoryAPIActionLabel = {
+  GET_LATEST_CATEGORIES_API: 'API/CATEGORY/GET_LATEST_CATEGORIES_ACTION',
+  GET_ROOM_CATEGORIES_API: 'API/CATEGORY/GET_ROOM_CATEGORIES_ACTION',
+} as const;
+
+export const CategoryJSONType = 'CategoryJSON';

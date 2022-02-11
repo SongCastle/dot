@@ -1,21 +1,29 @@
 import { configureStore } from '@reduxjs/toolkit';
+import queryString from 'query-string';
+import { useLocation } from 'react-router-dom';
 
-import { reducer as ormReducer, sagaMiddleware } from './orm';
-import { reducer as progressReducer } from './progress';
-import { reducer as routerReducer, routerMiddleware } from './router';
-
-// Root Reducer
-const rootReducer = {
-  orm: ormReducer,
-  progress: progressReducer,
-  router: routerReducer,
-};
+import { CategoryAPIActionLabel, RoomAPIActionLabel } from './api';
+import { push, routerMiddleware } from './router';
+import { rootReducer } from './reducers';
+import { sagaMiddleware } from './sagas';
 
 // Store
 export const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({ thunk: false }).concat(sagaMiddleware, routerMiddleware),
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [
+          ...Object.values(CategoryAPIActionLabel),
+          ...Object.values(RoomAPIActionLabel),
+        ],
+      },
+      thunk: false,
+    }).concat(sagaMiddleware, routerMiddleware),
 });
 
 export const { dispatch } = store;
+export const dispatchPath = (path: string) => {
+  dispatch(push(path));
+};
+export const useQueryString = () => queryString.parse(useLocation().search);

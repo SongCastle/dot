@@ -1,7 +1,7 @@
 import { attr, many, Model } from 'redux-orm';
 import type { ModelType, Ref } from 'redux-orm';
 
-import type { GategoryActionType } from './actions';
+import type { CategoryActionType } from './actions';
 import { CategoryActionLabel } from './constants';
 
 import type { Room } from '../rooms';
@@ -9,9 +9,8 @@ import type { Room } from '../rooms';
 interface CategoryFields {
   id: string;
   name: string;
-  latest?: boolean;
   created_at: string;
-  creator_id?: number; // TODO: User
+  creator_id?: string; // TODO: User
   rooms?: string[];
   roomsM?: ModelType<Room>;
 }
@@ -28,7 +27,6 @@ export class Category extends Model<typeof Category, CategoryFields> {
   static override fields = {
     id: attr(),
     name: attr(),
-    latest: attr(),
     created_at: attr(),
     rooms: many({ to: 'Room', as: 'roomsM' }),
     // TODO: User
@@ -40,7 +38,7 @@ export class Category extends Model<typeof Category, CategoryFields> {
   };
 }
 
-Category.reducer = (action: GategoryActionType, modelType: ModelType<Category>, _session) => {
+Category.reducer = (action: CategoryActionType, modelType: ModelType<Category>, _session) => {
   switch (action.type) {
     case CategoryActionLabel.CREATE_CATEGORY:
       modelType.create(action.payload);
@@ -51,12 +49,7 @@ Category.reducer = (action: GategoryActionType, modelType: ModelType<Category>, 
       });
       break;
     case CategoryActionLabel.GET_LATEST_CATEGORIES:
-      break;
-    case CategoryActionLabel.UPSERT_LATEST_CATEGORIES:
-      action.payload.forEach?.((category) => {
-        category.latest = true;
-        modelType.upsert(category);
-      });
+    case CategoryActionLabel.GET_ROOM_CATEGORIES:
       break;
     default:
   }
