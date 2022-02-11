@@ -13,4 +13,10 @@ class Room < ApplicationRecord
   # サブカテゴリ
   has_many :sub_category_rooms
   has_many :sub_categories, through: :sub_category_rooms, source: :category
+
+  scope :search, -> (keyword) do
+    left_joins(:categories).
+      where(rooms: {name: keyword}).
+      or(where(categories: {name: keyword})).uniq
+  end
 end

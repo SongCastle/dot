@@ -9,5 +9,9 @@ Rails.application.routes.draw do
     end
 
     resources :users, only: [:index, :show]
+
+    resource :search, only: [] do
+      resources :rooms, only: :index, controller: 'search_rooms'
+    end
   end
 end
