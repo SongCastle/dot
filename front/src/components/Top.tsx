@@ -21,7 +21,7 @@ export const Top: FC = () => (
       <SearchBox
         sx={{ width: 'min(95%, 320px)', marginTop: '0.5rem' }}
         onSubmit={(text) => {
-          const params = queryString.stringify({ keyword: text });
+          const params = queryString.stringify({ q: text });
           dispatchPath(`/rooms/search?${params}`);
         }}
       />

@@ -31,10 +31,10 @@ export function* requestCategoryRoomsAPI<T>(categoryId: string, callBack: RoomsA
 }
 
 export function* requestSearchRoomsAPI<T>(
-  keyword: string | string[],
+  query: string | string[],
   callBack: RoomsActionCallback<T>,
 ) {
-  const rooms: RoomResponse[] = yield call(() => searchRoomsApi(keyword));
+  const rooms: RoomResponse[] = yield call(() => searchRoomsApi(query));
   yield callBack(rooms);
 }
 
@@ -68,10 +68,10 @@ export function* watchRoomsAPI() {
 
   yield takeEvery(
     RoomAPIActionLabel.SEARCH_ROOMS_API,
-    ({ payload: { channel, keyword, callback } }: SearchRoomsAPI) =>
+    ({ payload: { channel, query, callback } }: SearchRoomsAPI) =>
       progressHandler(
         channel,
-        requestSearchRoomsAPI(keyword, (rooms) => callback(rooms)),
+        requestSearchRoomsAPI(query, (rooms) => callback(rooms)),
       ),
   );
 }

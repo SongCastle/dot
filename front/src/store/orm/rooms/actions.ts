@@ -57,10 +57,10 @@ export const getLatestRooms = createAction(
 
 export const searchRooms = createAction(
   RoomActionLabel.SEARCH_ROOMS,
-  (channel: Channel, keyword: string | string[]) => ({
+  (channel: Channel, query: string | string[]) => ({
     payload: {
       channel,
-      keyword,
+      query,
     },
   }),
 );

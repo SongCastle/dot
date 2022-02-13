@@ -42,10 +42,10 @@ export async function getCategoryRoomsApi(categoryId: string): Promise<RoomRespo
   return JSONSerializer.deserialize<RoomResponse[]>(RoomJSONType, response.data);
 }
 
-export async function searchRoomsApi(keyword: string | string[]): Promise<RoomResponse[]> {
+export async function searchRoomsApi(query: string | string[]): Promise<RoomResponse[]> {
   const response = await backAPI.get<JSONAPIDocument>(`/v1/search/rooms`, {
     params: {
-      keyword,
+      q: query,
     },
   });
   return JSONSerializer.deserialize<RoomResponse[]>(RoomJSONType, response.data);

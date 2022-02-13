@@ -1,13 +1,13 @@
 class V1::SearchController < ApplicationController
-  before_action :validate_keyword!
+  before_action :validate_query!
 
   private
 
-  def validate_keyword!
-    raise BadRequest, code: 'invalid_keyword' unless keyword.is_a?(String) | keyword.is_a?(Array)
+  def validate_query!
+    raise BadRequest, code: 'invalid_query' unless query.is_a?(String) | query.is_a?(Array)
   end
 
-  def keyword
-    @keyword ||= params[:keyword].presence
+  def query
+    @query ||= params[:q].presence
   end
 end

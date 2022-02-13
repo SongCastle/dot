@@ -43,10 +43,10 @@ export const getCategoryRoomsAPI = createAction(
 
 export const searchRoomsAPI = createAction(
   RoomAPIActionLabel.SEARCH_ROOMS_API,
-  (channel: Channel, keyword: string | string[], callback: RoomsActionCallback) => ({
+  (channel: Channel, query: string | string[], callback: RoomsActionCallback) => ({
     payload: {
       channel,
-      keyword,
+      query,
       callback,
     },
   }),

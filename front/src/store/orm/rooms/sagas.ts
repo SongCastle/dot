@@ -47,8 +47,8 @@ function* requestCategoryRooms(categoryId: string) {
   if (!cached) yield requestCategoryRoomsAPI(categoryId, (rooms) => put(upsertRooms(rooms)));
 }
 
-function* requestSearchRooms(keyword: string | string[]) {
-  yield requestSearchRoomsAPI(keyword, (rooms) => put(upsertRooms(rooms)));
+function* requestSearchRooms(query: string | string[]) {
+  yield requestSearchRoomsAPI(query, (rooms) => put(upsertRooms(rooms)));
 }
 
 export function* watchRoomsRequest() {
@@ -69,7 +69,7 @@ export function* watchRoomsRequest() {
 
   yield takeEvery(
     RoomActionLabel.SEARCH_ROOMS,
-    ({ payload: { channel, keyword } }: SearchRoomsType) =>
-      progressHandler(channel, requestSearchRooms(keyword)),
+    ({ payload: { channel, query } }: SearchRoomsType) =>
+      progressHandler(channel, requestSearchRooms(query)),
   );
 }
