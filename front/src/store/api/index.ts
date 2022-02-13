@@ -1,4 +1,5 @@
 export {
+  CategoryAPIActionLabel,
   // Action
   getLatestCategoriesAPI,
   getRoomCategoriesAPI,
@@ -6,9 +7,9 @@ export {
   requestCategoriesAPI,
   requestRoomCategoriesAPI,
   watchCategoriesAPI,
-  CategoryAPIActionLabel,
 } from './categories';
 export {
+  RoomAPIActionLabel,
   // Action
   getRoomAPI,
   getLatestRoomsAPI,
@@ -20,5 +21,4 @@ export {
   requestCategoryRoomsAPI,
   requestSearchRoomsAPI,
   watchRoomsAPI,
-  RoomAPIActionLabel,
 } from './rooms';
