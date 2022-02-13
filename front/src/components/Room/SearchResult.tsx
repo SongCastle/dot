@@ -26,9 +26,7 @@ export const SearchResult: FC = () => {
   return (
     <Box my={4}>
       <BasicPaper>
-        <Typography gutterBottom>
-          検索結果: {typeof q === 'string' ? q : q?.join(' ')}
-        </Typography>
+        <Typography gutterBottom>検索結果: {typeof q === 'string' ? q : q?.join(' ')}</Typography>
         <Progress
           status={status}
           callback={() => {

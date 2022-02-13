@@ -13,18 +13,25 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
-    'import/prefer-default-export': 'off',
-    'jsx-quotes': ['error', 'prefer-single'],
-    'no-param-reassign': ['error', { props: false }],
-    'object-curly-newline': 'off',
     '@typescript-eslint/no-unused-vars': [
       'error',
       { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
     ],
+    'import/prefer-default-export': 'off',
+    'jsx-quotes': ['error', 'prefer-single'],
+    'no-param-reassign': ['error', { props: false }],
     'no-restricted-imports': [
       'error',
       {
         patterns: ['@mui/*/*/*', '!@mui/material/test-utils/*'],
+      },
+    ],
+    'object-curly-newline': 'off',
+    'react/function-component-definition': [
+      'error',
+      {
+        namedComponents: 'arrow-function',
+        unnamedComponents: 'arrow-function',
       },
     ],
   },

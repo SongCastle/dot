@@ -1,11 +1,7 @@
 import type { TailwindConfig } from 'tailwindcss/tailwind-config';
 
 export const tailwindConfig: TailwindConfig = {
-  purge: {
-    enabled: true,
-    content: ['./src/**/*.tsx'],
-  },
-  darkMode: false,
+  content: ['./src/**/*.tsx'],
   theme: {
     extend: {
       minHeight: {

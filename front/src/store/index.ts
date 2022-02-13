@@ -11,10 +11,8 @@ export {
   getRoomCategories,
   getLatestCategories,
   upsertRooms,
-  getRoom,
-} from // getCategoryRooms,
-// getLatestRooms,
-// searchRooms,
+  getRoom, // getCategoryRooms, // getLatestRooms,
+} from // searchRooms,
 './orm';
 // export type { CategoryState, RoomState } from './orm';
 
@@ -38,6 +36,4 @@ export {
   roomStateSelector,
   roomsStateSelector,
   myUIStateSelector,
-  // categoryRoomsSelector,
-  roomSelector,
 } from './selectors';
