@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { Grid } from '@mui/material';
 
 import { Progress } from '../Progress/Progress';

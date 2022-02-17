@@ -1,7 +1,7 @@
 import { Box, IconButton, InputAdornment, TextField } from '@mui/material';
 import type { BoxProps } from '@mui/system';
 import { ArrowForward } from '@mui/icons-material';
-import React, { useState, FC } from 'react';
+import { useState, FC } from 'react';
 
 type SearchBoxProp = Pick<BoxProps, 'sx'> & {
   onSubmit: (text: string[]) => void;

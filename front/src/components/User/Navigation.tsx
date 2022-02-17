@@ -1,5 +1,5 @@
 import { Container } from '@mui/material';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { LatestCategoryList } from '../Category/LatestCategoryList';
 

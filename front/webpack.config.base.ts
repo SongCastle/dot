@@ -1,31 +1,24 @@
 import path from 'path';
+import postcssPresetEnv from 'postcss-preset-env';
 import webpack, { Configuration as WebpackConfiguration } from 'webpack';
 import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
-
-import postcssconfig from './postcss.config';
 
 interface Configuration extends WebpackConfiguration {
   devServer?: WebpackDevServerConfiguration;
 }
 
 const srcPath = path.resolve(__dirname, 'src');
-const distPath = path.resolve(__dirname, 'dist');
 
 const config: Configuration = {
   context: srcPath,
   entry: './index.tsx',
   output: {
-    path: distPath,
+    path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
     publicPath: '/assets/',
   },
   module: {
     rules: [
-      {
-        test: /\.tsx?$/,
-        include: srcPath,
-        use: 'ts-loader',
-      },
       {
         test: /\.css$/,
         include: srcPath,
@@ -42,7 +35,9 @@ const config: Configuration = {
           {
             loader: 'postcss-loader',
             options: {
-              postcssOptions: postcssconfig,
+              postcssOptions: {
+                plugins: [postcssPresetEnv()],
+              },
             },
           },
         ],

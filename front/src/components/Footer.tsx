@@ -1,3 +1,10 @@
-import React, { FC } from 'react';
+import { css } from '@emotion/react';
+import { FC } from 'react';
 
-export const Footer: FC = () => <footer className='border h-24'>footer</footer>;
+const footerStyle =
+  css`
+    height: 6rem;
+    border-top: 1px solid #ddd;
+  `;
+
+export const Footer: FC = () => <footer css={footerStyle}>footer</footer>;

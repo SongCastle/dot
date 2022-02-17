@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { ConnectedRouter as Router } from 'connected-react-router';
 import { Switch, Route } from 'react-router-dom';
 

@@ -3,7 +3,7 @@ module.exports = {
     browser: true,
     es2020: true,
   },
-  extends: ['airbnb', 'airbnb-typescript', 'prettier'],
+  extends: ['airbnb', 'airbnb-typescript', 'plugin:react/jsx-runtime', 'prettier'],
   parserOptions: {
     ecmaFeatures: {
       jsx: true,

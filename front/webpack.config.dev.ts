@@ -2,14 +2,26 @@ import path from 'path';
 import { merge } from 'webpack-merge';
 import base from './webpack.config.base';
 
-const staticPath = path.resolve(__dirname, 'static');
-
 const config = merge(base, {
   mode: 'development',
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        include: path.resolve(__dirname, 'src'),
+        use: {
+          loader: 'ts-loader',
+          options: {
+            configFile: 'tsconfig.dev.json',
+          },
+        },
+      },
+    ],
+  },
   devtool: 'inline-source-map',
   devServer: {
     static: {
-      directory: staticPath,
+      directory: path.resolve(__dirname, 'static'),
     },
     historyApiFallback: true,
     host: '0.0.0.0',
