@@ -4,12 +4,11 @@ import { FC } from 'react';
 
 import { dispatchPath } from '../store';
 
-const headerStyle =
-  css`
-    height: 6rem;
-    border-bottom: 1px solid #ddd;
-    cursor: pointer;
-  `;
+const headerStyle = css`
+  height: 6rem;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+`;
 
 export const Header: FC = () => (
   <header css={headerStyle}>

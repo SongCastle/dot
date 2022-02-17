@@ -11,9 +11,8 @@ export {
   getRoomCategories,
   getLatestCategories,
   upsertRooms,
-  getRoom, // getCategoryRooms, // getLatestRooms,
-} from // searchRooms,
-'./orm';
+  getRoom, // getCategoryRooms, // getLatestRooms, // searchRooms,
+} from './orm';
 // export type { CategoryState, RoomState } from './orm';
 
 export { history } from './router';
