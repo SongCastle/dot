@@ -1,11 +1,6 @@
 import path from 'path';
 import postcssPresetEnv from 'postcss-preset-env';
-import webpack, { Configuration as WebpackConfiguration } from 'webpack';
-import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
-
-interface Configuration extends WebpackConfiguration {
-  devServer?: WebpackDevServerConfiguration;
-}
+import webpack, { Configuration } from 'webpack';
 
 const srcPath = path.resolve(__dirname, 'src');
 

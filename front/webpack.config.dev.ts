@@ -1,8 +1,15 @@
 import path from 'path';
+import type { Configuration as WebpackConfiguration } from 'webpack';
+import type { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
 import { merge } from 'webpack-merge';
+
 import base from './webpack.config.base';
 
-const config = merge(base, {
+interface Configuration extends WebpackConfiguration {
+  devServer?: WebpackDevServerConfiguration;
+}
+
+const config: Configuration = merge(base, {
   mode: 'development',
   module: {
     rules: [
