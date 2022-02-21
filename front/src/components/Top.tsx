@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import queryString from 'query-string';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { Logo } from './Common/Logo';
 import { SearchBox } from './Common/SearchBox';

@@ -1,5 +1,5 @@
 import { Box, CircularProgress, Typography } from '@mui/material';
-import React, { useEffect, FC } from 'react';
+import { useEffect, FC } from 'react';
 import type { DependencyList, EffectCallback, ReactNode } from 'react';
 
 import { ProgressStatus } from '../../store';

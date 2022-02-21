@@ -1,5 +1,5 @@
 import { Button, Card, CardActions, CardContent, Typography } from '@mui/material';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { Progress } from '../Progress/Progress';

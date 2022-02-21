@@ -1,5 +1,5 @@
 import { Box, Grid, Typography } from '@mui/material';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { RoomBox } from './RoomBox';
 import { useAppObjectSelector, roomsStateSelector } from '../../store';

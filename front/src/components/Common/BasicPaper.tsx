@@ -1,9 +1,6 @@
-// TODO: Babel でプラグマの記述を暗黙的にやりたい ...
-
-/** @jsx jsx */
-import { css, jsx } from '@emotion/react';
+import { css } from '@emotion/react';
 import { Paper } from '@mui/material';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import type { ReactNode } from 'react';
 
 type BasicPaperProp = {

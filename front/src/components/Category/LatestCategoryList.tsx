@@ -1,5 +1,5 @@
 import { List, ListItem, ListItemText, Typography } from '@mui/material';
-import React, { useState, FC } from 'react';
+import { useState, FC } from 'react';
 
 import { CategoryChip } from './CategoryChip';
 import { BasicPaper } from '../Common/BasicPaper';

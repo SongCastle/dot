@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import React, { useState, FC } from 'react';
+import { useState, FC } from 'react';
 
 import { RoomBoxes } from './RoomBoxes';
 import { BasicPaper } from '../Common/BasicPaper';
