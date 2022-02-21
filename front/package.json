@@ -18,6 +18,7 @@
   "dependencies": {
     "@emotion/react": "^11.6.0",
     "@emotion/styled": "^11.6.0",
+    "@mui/icons-material": "^5.2.1",
     "@mui/material": "^5.1.0",
     "@reduxjs/toolkit": "^1.6.1",
     "axios": "^0.21.1",
@@ -25,6 +26,7 @@
     "history": "^4.7.2",
     "json-api-serializer": "^2.6.5",
     "postcss-preset-env": "^6.7.0",
+    "query-string": "^7.1.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-fast-compare": "^3.2.0",

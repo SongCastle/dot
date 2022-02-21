@@ -10,9 +10,8 @@ export interface RoomFields {
   id: string;
   name: string;
   description?: string;
-  latest?: boolean;
   created_at: string;
-  creator_id?: number; // TODO: User
+  creator_id?: string; // TODO: User
   main_category?: string;
   sub_categories?: string[];
   mainCategoryM?: SessionBoundModel<Category>;
@@ -33,7 +32,6 @@ export class Room extends Model<typeof Room, RoomFields> {
     id: attr(),
     name: attr(),
     description: attr(),
-    latest: attr(),
     created_at: attr(),
     main_category: fk({ to: 'Category', as: 'mainCategoryM', relatedName: 'main_room' }),
     sub_categories: many({ to: 'Category', as: 'subCategoriesM', relatedName: 'sub_rooms' }),
@@ -60,12 +58,7 @@ Room.reducer = (action: RoomActionType, modelType: ModelType<Room>, _session) =>
     case RoomActionLabel.GET_ROOM:
     case RoomActionLabel.GET_CATEGORY_ROOMS:
     case RoomActionLabel.GET_LATEST_ROOMS:
-      break;
-    case RoomActionLabel.UPSERT_LATEST_ROOMS:
-      action.payload.forEach?.((room) => {
-        room.latest = true;
-        modelType.upsert(room);
-      });
+    case RoomActionLabel.SEARCH_ROOMS:
       break;
     default:
   }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Grid } from '@mui/material';
 
 import { Progress } from '../Progress/Progress';
@@ -11,7 +11,7 @@ import {
   getRoomCategories,
   roomMainCategoryStateSelector,
   roomSubCategoriesStateSelector,
-  myProgressStateSelector,
+  myUIStateSelector,
 } from '../../store';
 import type { Channel } from '../../store';
 
@@ -19,9 +19,9 @@ type CategoryChipsProp = {
   roomId: string;
 };
 
-export const CategoryChips: React.FC<CategoryChipsProp> = ({ roomId }) => {
+export const CategoryChips: FC<CategoryChipsProp> = ({ roomId }) => {
   const myChannel: Channel = `CategoryChips-${roomId}`;
-  const status = useAppSelector((state) => myProgressStateSelector(state)(myChannel));
+  const status = useAppSelector((state) => myUIStateSelector(state)(myChannel));
   const mainCategory = useAppObjectSelector((state) =>
     roomMainCategoryStateSelector(state)(roomId),
   );
@@ -34,7 +34,7 @@ export const CategoryChips: React.FC<CategoryChipsProp> = ({ roomId }) => {
     <Progress
       status={status}
       callback={() => {
-        dispatch(getRoomCategories(roomId, myChannel));
+        dispatch(getRoomCategories(myChannel, roomId));
       }}
     >
       <Grid container spacing={0.5}>

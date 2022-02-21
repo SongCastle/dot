@@ -1,3 +1,3 @@
-import React from 'react';
+import React, { FC } from 'react';
 
-export const Footer: React.FC = () => <footer className='border h-24'>footer</footer>;
+export const Footer: FC = () => <footer className='border h-24'>footer</footer>;

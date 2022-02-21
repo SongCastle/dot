@@ -3,7 +3,8 @@ import { createAction } from '@reduxjs/toolkit';
 
 import { RoomActionLabel } from './constants';
 import { Room } from './orm';
-import type { Channel } from '../../progress';
+
+import { Channel } from '../../ui';
 
 // Prop
 type CreateRoomProps = CreateProps<Room>;
@@ -13,27 +14,38 @@ export type UpsertRoomProps = UpsertProps<Room>;
 export const createRoom = createAction(RoomActionLabel.CREATE_ROOM, (room: CreateRoomProps) => ({
   payload: room,
 }));
-export const getRoom = createAction(
-  RoomActionLabel.GET_ROOM,
-  (roomId: string, channel: Channel) => ({
-    payload: {
-      roomId,
-      channel,
-    },
-  }),
-);
+
 export const upsertRoom = createAction(RoomActionLabel.UPSERT_ROOM, (room: UpsertRoomProps) => ({
   payload: room,
 }));
-export const getCategoryRooms = createAction(
-  RoomActionLabel.GET_CATEGORY_ROOMS,
-  (categoryId: string, channel: Channel) => ({
+
+export const upsertRooms = createAction(
+  RoomActionLabel.UPSERT_ROOMS,
+  (rooms: UpsertRoomProps[]) => ({
+    payload: rooms,
+  }),
+);
+
+export const getRoom = createAction(
+  RoomActionLabel.GET_ROOM,
+  (channel: Channel, roomId: string) => ({
     payload: {
-      categoryId,
       channel,
+      roomId,
     },
   }),
 );
+
+export const getCategoryRooms = createAction(
+  RoomActionLabel.GET_CATEGORY_ROOMS,
+  (channel: Channel, categoryId: string) => ({
+    payload: {
+      channel,
+      categoryId,
+    },
+  }),
+);
+
 export const getLatestRooms = createAction(
   RoomActionLabel.GET_LATEST_ROOMS,
   (channel: Channel) => ({
@@ -42,27 +54,24 @@ export const getLatestRooms = createAction(
     },
   }),
 );
-// TODO: upsertRooms と upsertLatestRooms をまとめたい
-export const upsertRooms = createAction(
-  RoomActionLabel.UPSERT_ROOMS,
-  (rooms: UpsertRoomProps[]) => ({
-    payload: rooms,
-  }),
-);
-export const upsertLatestRooms = createAction(
-  RoomActionLabel.UPSERT_LATEST_ROOMS,
-  (rooms: UpsertRoomProps[]) => ({
-    payload: rooms,
+
+export const searchRooms = createAction(
+  RoomActionLabel.SEARCH_ROOMS,
+  (channel: Channel, query: string | string[]) => ({
+    payload: {
+      channel,
+      query,
+    },
   }),
 );
 
 type CreateRoomType = ReturnType<typeof createRoom>;
-export type GetRoomType = ReturnType<typeof getRoom>;
 type UpsertRoomType = ReturnType<typeof upsertRoom>;
 type UpsertRoomsType = ReturnType<typeof upsertRooms>;
+export type GetRoomType = ReturnType<typeof getRoom>;
 export type GetCategoryRoomsType = ReturnType<typeof getCategoryRooms>;
 export type GetLatestRoomsType = ReturnType<typeof getLatestRooms>;
-type UpsertLatestRoomsType = ReturnType<typeof upsertLatestRooms>;
+export type SearchRoomsType = ReturnType<typeof searchRooms>;
 
 export type RoomActionType =
   | CreateRoomType
@@ -71,4 +80,4 @@ export type RoomActionType =
   | UpsertRoomsType
   | GetCategoryRoomsType
   | GetLatestRoomsType
-  | UpsertLatestRoomsType;
+  | SearchRoomsType;

@@ -1,41 +1,37 @@
-import { call, put, select, takeEvery, takeLatest } from 'redux-saga/effects';
+import { put, select, takeEvery, takeLatest } from 'redux-saga/effects';
 
-import {
-  getRoom,
-  getCategoryRooms,
-  getLatestRooms,
-  upsertRoom,
-  upsertRooms,
-  upsertLatestRooms,
-} from './actions';
+import { upsertRoom, upsertRooms } from './actions';
 import type {
   GetRoomType,
   GetLatestRoomsType,
-  UpsertRoomProps,
   GetCategoryRoomsType,
+  SearchRoomsType,
 } from './actions';
-import { getRoomApi, getRoomsApi, getCategoryRoomsApi } from './api';
 
+import { RoomActionLabel } from './constants';
+
+import {
+  requestRoomAPI,
+  requestRoomsAPI,
+  requestCategoryRoomsAPI,
+  requestSearchRoomsAPI,
+} from '../../api';
 import type { CategoryState } from '../categories';
 
-import { progressHandler } from '../../progress';
+import { progressHandler } from '../../ui';
 
 // TODO: selector の import について確認
 import { categoryStateSelector, roomsStateChecker } from '../../selectors';
-import type { RootState } from '../../selectors';
+import type { RootState } from '../../reducers';
 
 function* requestRoom(roomId: string) {
   const cached: boolean = yield select((state: RootState) => roomsStateChecker(state)([roomId]));
 
-  if (!cached) {
-    const room: UpsertRoomProps = yield call(() => getRoomApi(roomId));
-    yield put(upsertRoom(room));
-  }
+  if (!cached) yield requestRoomAPI(roomId, (room) => put(upsertRoom(room)));
 }
 
 function* requestRooms() {
-  const rooms: UpsertRoomProps[] = yield call(getRoomsApi);
-  yield put(upsertLatestRooms(rooms));
+  yield requestRoomsAPI((rooms) => put(upsertRooms(rooms)));
 }
 
 function* requestCategoryRooms(categoryId: string) {
@@ -48,22 +44,32 @@ function* requestCategoryRooms(categoryId: string) {
     cached = yield select((state: RootState) => roomsStateChecker(state)(cachedCategory.rooms));
   }
 
-  if (!cached) {
-    const rooms: UpsertRoomProps[] = yield call(() => getCategoryRoomsApi(categoryId));
-    yield put(upsertRooms(rooms));
-  }
+  if (!cached) yield requestCategoryRoomsAPI(categoryId, (rooms) => put(upsertRooms(rooms)));
+}
+
+function* requestSearchRooms(query: string | string[]) {
+  yield requestSearchRoomsAPI(query, (rooms) => put(upsertRooms(rooms)));
 }
 
 export function* watchRoomsRequest() {
-  yield takeEvery(getRoom, ({ payload: { channel, roomId } }: GetRoomType) =>
+  yield takeEvery(RoomActionLabel.GET_ROOM, ({ payload: { channel, roomId } }: GetRoomType) =>
     progressHandler(channel, requestRoom(roomId)),
   );
 
-  yield takeLatest(getLatestRooms, ({ payload: { channel } }: GetLatestRoomsType) =>
-    progressHandler(channel, requestRooms()),
+  yield takeLatest(
+    RoomActionLabel.GET_LATEST_ROOMS,
+    ({ payload: { channel } }: GetLatestRoomsType) => progressHandler(channel, requestRooms()),
   );
 
-  yield takeEvery(getCategoryRooms, ({ payload: { channel, categoryId } }: GetCategoryRoomsType) =>
-    progressHandler(channel, requestCategoryRooms(categoryId)),
+  yield takeEvery(
+    RoomActionLabel.GET_CATEGORY_ROOMS,
+    ({ payload: { channel, categoryId } }: GetCategoryRoomsType) =>
+      progressHandler(channel, requestCategoryRooms(categoryId)),
+  );
+
+  yield takeEvery(
+    RoomActionLabel.SEARCH_ROOMS,
+    ({ payload: { channel, query } }: SearchRoomsType) =>
+      progressHandler(channel, requestSearchRooms(query)),
   );
 }

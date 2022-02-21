@@ -1,3 +1,11 @@
-import React from 'react';
+import { Box } from '@mui/material';
+import React, { FC } from 'react';
 
-export const Header: React.FC = () => <header className='border h-24'>header</header>;
+import { dispatchPath } from '../store';
+
+// TODO: TailwindCSS をやめるべきかも ...
+export const Header: FC = () => (
+  <header className='border cursor-pointer h-24'>
+    <Box sx={{ width: '100%', height: '100%' }} onClick={() => dispatchPath('/')} />
+  </header>
+);

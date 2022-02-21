@@ -1,31 +1,31 @@
 import { Box, CircularProgress, Typography } from '@mui/material';
-import React, { useEffect } from 'react';
-import type { DependencyList, EffectCallback } from 'react';
+import React, { useEffect, FC } from 'react';
+import type { DependencyList, EffectCallback, ReactNode } from 'react';
 
-import { StatusState } from '../../store';
-import type { StatusStateType } from '../../store';
+import { ProgressStatus } from '../../store';
+import type { ProgressType } from '../../store';
 
 type ProgressProp = {
-  children: React.ReactNode;
+  children: ReactNode;
   callback: EffectCallback;
   deps?: DependencyList;
-  status: StatusStateType;
+  status: ProgressType;
 };
 
-export const Progress: React.FC<ProgressProp> = ({ children, callback, deps, status }) => {
+export const Progress: FC<ProgressProp> = ({ children, callback, deps, status }) => {
   useEffect(() => {
-    if (status !== StatusState.SUCCESS) callback();
+    callback();
   }, deps);
 
-  if (status === StatusState.LOAD) {
-    return (
-      <Box m={2}>
-        <CircularProgress size={30} />
-      </Box>
-    );
-  }
-  if (status === StatusState.FAIL) return <Typography>取得に失敗しました</Typography>;
-  return <> {children} </>;
+  if (status === ProgressStatus.FAIL) return <Typography>取得に失敗しました</Typography>;
+
+  if (status === ProgressStatus.SUCCESS) return <> {children} </>;
+
+  return (
+    <Box m={2}>
+      <CircularProgress size={30} />
+    </Box>
+  );
 };
 
 Progress.defaultProps = {
