@@ -3,7 +3,15 @@ import React, { FC } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { Progress } from '../Progress/Progress';
-import { dispatch, dispatchPath, getRoom, useAppObjectSelector, roomSelector } from '../../store';
+import {
+  dispatch,
+  dispatchPath,
+  getRoom,
+  useAppSelector,
+  useAppObjectSelector,
+  roomStateSelector,
+  myUIStateSelector,
+} from '../../store';
 import type { Channel } from '../../store';
 
 type RoomParams = { roomId: string };
@@ -11,7 +19,9 @@ type RoomParams = { roomId: string };
 export const RoomDetail: FC = () => {
   const { roomId } = useParams<RoomParams>();
   const myChannel: Channel = `RoomDetail-${roomId}`;
-  const { room, status } = useAppObjectSelector((state) => roomSelector(state)(roomId, myChannel));
+
+  const room = useAppObjectSelector((state) => roomStateSelector(state)(roomId));
+  const status = useAppSelector((state) => myUIStateSelector(state)(myChannel));
 
   // TODO: カテゴリの表示
   return (

@@ -40,11 +40,6 @@ export const categoriesStateSelector = createSelector(
       .toRefArray(),
 );
 
-const categoryRoomsStateSelector = createSelector(ormSelector, (state) => (categoryId: string) => {
-  const category = newCatgeorySession(state).withId(categoryId);
-  return category?.roomsM?.all().toRefArray() || [];
-});
-
 export const categoriesStateChecker = createSelector(
   ormSelector,
   (state) => (categoryIds?: string[]) =>
@@ -91,23 +86,4 @@ const uiStateSelector = createSelector(selectSelf, (state) => state.ui);
 export const myUIStateSelector = createSelector(
   uiStateSelector,
   (progress) => (channel: Channel) => progress[channel],
-);
-
-// ORM and Progress Selector (Combined)
-// TODO: Combined やめるべきかも ... ?
-export const roomSelector = createSelector(
-  roomStateSelector,
-  myUIStateSelector,
-  (s1, s2) => (roomId: string, channel: Channel) => ({
-    room: s1(roomId),
-    status: s2(channel),
-  }),
-);
-export const categoryRoomsSelector = createSelector(
-  categoryRoomsStateSelector,
-  myUIStateSelector,
-  (s1, s2) => (categoryId: string, channel: Channel) => ({
-    rooms: s1(categoryId),
-    status: s2(channel),
-  }),
 );
