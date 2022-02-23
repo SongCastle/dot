@@ -1,5 +1,4 @@
-
-input:-webkit-autofill {
+input:autofill {
   background-color: transparent !important;
   box-shadow: 0 0 0 1000px white inset;
 }
