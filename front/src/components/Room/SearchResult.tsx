@@ -1,8 +1,10 @@
-import { Box, Typography } from '@mui/material';
+import { css } from '@emotion/react';
+import { Box } from '@mui/material';
 import { useState, FC } from 'react';
 
 import { RoomBoxes } from './RoomBoxes';
-import { BasicPaper } from '../Common/BasicPaper';
+import { SearchResultInput } from './SearchResultInput';
+import { BasicPaper } from '../Common';
 import { Progress } from '../Progress/Progress';
 
 import {
@@ -16,6 +18,13 @@ import {
 
 const myChannel = 'SearchResult';
 
+const paperStyle = css`
+  margin-top: 1rem;
+`;
+
+const toQueryText = (q?: string | string[] | null) =>
+  (typeof q === 'string' ? q : q?.join(' ')) || '';
+
 export const SearchResult: FC = () => {
   const { q } = useQueryString();
   const [ids, setRoomIds] = useState<string[]>([]);
@@ -25,8 +34,8 @@ export const SearchResult: FC = () => {
   // TODO: 一致するキーワードの色分けをしたい
   return (
     <Box my={4}>
-      <BasicPaper>
-        <Typography gutterBottom>検索結果: {typeof q === 'string' ? q : q?.join(' ')}</Typography>
+      <SearchResultInput q={toQueryText(q)} />
+      <BasicPaper customCSS={paperStyle}>
         <Progress
           status={status}
           callback={() => {
@@ -39,6 +48,7 @@ export const SearchResult: FC = () => {
               }),
             );
           }}
+          deps={[toQueryText(q)]}
         >
           <RoomBoxes ids={ids} />
         </Progress>

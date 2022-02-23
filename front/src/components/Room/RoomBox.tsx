@@ -1,4 +1,6 @@
-import { Button, Card, CardActions, CardContent, Typography } from '@mui/material';
+import { Card, CardActions, CardContent, IconButton, Typography } from '@mui/material';
+import { ChevronRight } from '@mui/icons-material';
+import type { CardTypeMap } from '@mui/material';
 import { FC } from 'react';
 
 import { CategoryChips } from '../Category/CategoryChips';
@@ -6,26 +8,29 @@ import { dispatchPath, useAppObjectSelector, roomStateSelector } from '../../sto
 
 type RoomBoxProp = {
   id: string;
+  sx?: CardTypeMap['props']['sx'];
 };
 
-export const RoomBox: FC<RoomBoxProp> = ({ id }) => {
+export const RoomBox: FC<RoomBoxProp> = ({ id, sx }) => {
   const room = useAppObjectSelector((state) => roomStateSelector(state)(id));
 
   return room ? (
-    <Card>
+    <Card sx={sx}>
       <CardContent>
         <Typography gutterBottom>{room.name}</Typography>
         {/* TODO: 閲覧しているユーザ数を表示したい */}
         <CategoryChips roomId={id} />
       </CardContent>
-      <CardActions>
-        <Button
+      <CardActions sx={{ alignSelf: 'flex-end', flexGrow: 1 }}>
+        <IconButton
+          edge='start'
+          sx={{ alignSelf: 'flex-end' }}
           onClick={() => {
             dispatchPath(`/rooms/${id}`);
           }}
         >
-          表示
-        </Button>
+          <ChevronRight />
+        </IconButton>
       </CardActions>
     </Card>
   ) : (
@@ -35,4 +40,8 @@ export const RoomBox: FC<RoomBoxProp> = ({ id }) => {
       </CardContent>
     </Card>
   );
+};
+
+RoomBox.defaultProps = {
+  sx: { display: 'flex', flexFlow: 'column', flexBasis: '100%' },
 };

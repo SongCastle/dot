@@ -2,7 +2,7 @@ import { Typography } from '@mui/material';
 import { useState, FC } from 'react';
 
 import { RoomBoxes } from './RoomBoxes';
-import { BasicPaper } from '../Common/BasicPaper';
+import { BasicPaper } from '../Common';
 import { Progress } from '../Progress/Progress';
 
 import {
