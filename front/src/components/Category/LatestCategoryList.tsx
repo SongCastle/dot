@@ -2,7 +2,7 @@ import { List, ListItem, ListItemText, Typography } from '@mui/material';
 import { useState, FC } from 'react';
 
 import { CategoryChip } from './CategoryChip';
-import { BasicPaper } from '../Common/BasicPaper';
+import { BasicPaper } from '../Common';
 import { Progress } from '../Progress/Progress';
 
 import {

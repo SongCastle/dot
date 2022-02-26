@@ -2,8 +2,7 @@ import { Box } from '@mui/material';
 import queryString from 'query-string';
 import { FC } from 'react';
 
-import { Logo } from './Common/Logo';
-import { SearchBox } from './Common/SearchBox';
+import { Logo, SearchBox } from './Common';
 
 import { dispatchPath } from '../store';
 
@@ -16,10 +15,10 @@ export const Top: FC = () => (
       justifyContent: 'center',
     }}
   >
-    <Box sx={{ width: '100%', marginBottom: '3rem' }}>
+    <Box sx={{ width: '100%', marginBottom: '3rem', textAlign: 'center' }}>
       <Logo />
       <SearchBox
-        sx={{ width: 'min(95%, 320px)', marginTop: '0.5rem' }}
+        sx={{ width: 'min(95%, 320px)', marginTop: '1rem' }}
         onSubmit={(text) => {
           const params = queryString.stringify({ q: text });
           dispatchPath(`/rooms/search?${params}`);
