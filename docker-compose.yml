@@ -7,11 +7,15 @@ services:
       - ./back/src:/opt/back
     environment:
       - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db-password
+      - MINIO_ROOT_USER_FILE=/run/secrets/minio-user
+      - MINIO_ROOT_PASSWORD_FILE=/run/secrets/minio-password
     env_file:
       - back/.env
       - db/.env
     secrets:
       - db-password
+      - minio-user
+      - minio-password
     networks:
       - back_net
       - front_net
@@ -19,6 +23,7 @@ services:
       - '3000:3000'
     depends_on:
       - db
+      - minio
     tty: true
 
   front:
@@ -49,11 +54,33 @@ services:
     expose:
       - 3306
 
+  minio:
+    build: ./minio
+    volumes:
+      - ./minio/data:/data
+    env_file:
+      - minio/.env
+    environment:
+      - MINIO_ROOT_USER_FILE=/run/secrets/minio-user
+      - MINIO_ROOT_PASSWORD_FILE=/run/secrets/minio-password
+    secrets:
+      - minio-user
+      - minio-password
+    networks:
+      - back_net
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+
 volumes:
   no_modules:
 secrets:
   db-password:
     file: db/password.txt
+  minio-user:
+    file: minio/user.txt
+  minio-password:
+    file: minio/password.txt
 networks:
   back_net:
   front_net:
