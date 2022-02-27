@@ -30,7 +30,7 @@ module AvatarGenerator
     #
     # ```
     # # e.g.
-    # AvatarGenerator.random_image('avatar.png', 5, 100) do |path|
+    # AvatarGenerator.random_image('avatar.png', 5, 20) do |path|
     #   # something like ...
     #   # FileUtils.cp(path, <destination_path>)
     # end
