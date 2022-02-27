@@ -1,2 +1,2 @@
-export { backAPI, JSONSerializer } from './fetch';
+export { backAPI, CommonConstants, JSONSerializer } from './fetch';
 export type { JSONAPIDocument, ResourceObject } from './fetch';

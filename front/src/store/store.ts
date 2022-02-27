@@ -1,6 +1,4 @@
 import { configureStore } from '@reduxjs/toolkit';
-import queryString from 'query-string';
-import { useLocation } from 'react-router-dom';
 
 import { CategoryAPIActionLabel, RoomAPIActionLabel } from './api';
 import { push, routerMiddleware } from './router';
@@ -26,4 +24,3 @@ export const { dispatch } = store;
 export const dispatchPath = (path: string) => {
   dispatch(push(path));
 };
-export const useQueryString = () => queryString.parse(useLocation().search);

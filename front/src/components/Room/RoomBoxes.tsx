@@ -16,7 +16,7 @@ export const RoomBoxes: FC<RoomBoxesProp> = ({ ids }) => {
       {rooms.length > 0 ? (
         <Grid container spacing={5}>
           {rooms.map(({ id }) => (
-            <Grid item key={id} xs={12} sm={6} md={4} lg={4} sx={{ display: 'flex' }}>
+            <Grid item key={id} xs={12} sm={6} md={6} lg={6} sx={{ display: 'flex' }}>
               <RoomBox id={id} />
             </Grid>
           ))}

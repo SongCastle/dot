@@ -1,17 +1,9 @@
 import { createSelector } from '@reduxjs/toolkit';
-import isEqual from 'react-fast-compare';
-import { useSelector } from 'react-redux';
-import type { TypedUseSelectorHook } from 'react-redux';
 
 import { selectLogo } from './logo';
 import { newCatgeorySession, newRoomSession } from './orm';
 import type { Channel } from './ui';
 import type { RootState } from './reducers';
-
-type TypedUseAppSelectorHook = TypedUseSelectorHook<RootState>;
-export const useAppSelector: TypedUseAppSelectorHook = useSelector;
-export const useAppObjectSelector: TypedUseAppSelectorHook = (selector, equalityFn?) =>
-  useSelector(selector, equalityFn || isEqual);
 
 // Root Selector
 const selectSelf = (state: RootState) => state;

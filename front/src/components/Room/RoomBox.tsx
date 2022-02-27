@@ -1,10 +1,18 @@
-import { Card, CardActions, CardContent, IconButton, Typography } from '@mui/material';
+import {
+  Avatar,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  IconButton,
+  Typography,
+} from '@mui/material';
 import { ChevronRight } from '@mui/icons-material';
 import type { CardTypeMap } from '@mui/material';
 import { FC } from 'react';
 
 import { CategoryChips } from '../Category/CategoryChips';
-import { dispatchPath, useAppObjectSelector, roomStateSelector } from '../../store';
+import { dispatchPath, useAppObjectSelector, useRoomAvatar, roomStateSelector } from '../../store';
 
 type RoomBoxProp = {
   id: string;
@@ -13,11 +21,15 @@ type RoomBoxProp = {
 
 export const RoomBox: FC<RoomBoxProp> = ({ id, sx }) => {
   const room = useAppObjectSelector((state) => roomStateSelector(state)(id));
+  const avatarURL = useRoomAvatar(id);
 
   return room ? (
     <Card sx={sx}>
+      <CardHeader
+        avatar={<Avatar src={avatarURL} />}
+        title={<Typography gutterBottom>{room.name}</Typography>}
+      />
       <CardContent>
-        <Typography gutterBottom>{room.name}</Typography>
         {/* TODO: 閲覧しているユーザ数を表示したい */}
         <CategoryChips roomId={id} />
       </CardContent>
