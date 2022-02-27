@@ -1,7 +1,7 @@
 # TODO: gem 化に挑戦したい
 # GitHub ライクなアバター画像をランダムに生成します。
 #
-# 以下の node package を Ruby に書き換えたものです。
+# 以下の node package を Ruby に向けて変更したものです。
 # @see https://github.com/vvanghelue/github-like-avatar-generator/blob/main/index.js
 #
 # 実行には ruby-vips が必要になります。
