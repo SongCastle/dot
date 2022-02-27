@@ -18,4 +18,4 @@ USER node
 COPY ./package.json ./package-lock.json* ./
 RUN npm cache clean --force && npm uninstall && npm install
 
-CMD ["npm", "start"]
+CMD [ "npm", "start" ]

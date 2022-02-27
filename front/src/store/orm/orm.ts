@@ -11,7 +11,7 @@ const indexedModels = {
 const models = Object.values(indexedModels).map((data) => data);
 
 // ORM
-export const orm = new ORM<typeof indexedModels>({ stateSelector: (state) => state.orm });
+const orm = new ORM<typeof indexedModels>({ stateSelector: (state) => state.orm });
 orm.register(...models);
 
 // Session
