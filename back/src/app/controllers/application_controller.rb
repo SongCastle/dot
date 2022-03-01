@@ -2,7 +2,7 @@ class ApplicationController < ActionController::API
 
   class HttpError < StandardError
     attr_reader :code
-    def initialize(args)
+    def initialize(args={})
       @code = args[:code] || self.class.name.demodulize.underscore
     end
     def status; nil; end

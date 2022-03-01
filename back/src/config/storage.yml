@@ -32,3 +32,12 @@ local:
 #   service: Mirror
 #   primary: local
 #   mirrors: [ amazon, google, microsoft ]
+
+minio:
+  service: S3
+  endpoint: http://minio:9000
+  access_key_id: <%= File.read(ENV.fetch('MINIO_ROOT_USER_FILE')) %>
+  secret_access_key: <%= File.read(ENV.fetch('MINIO_ROOT_PASSWORD_FILE')) %>
+  bucket: <%= ENV.fetch('MINIO_BUCKET') %>
+  region: ap-northeast-1
+  force_path_style: true

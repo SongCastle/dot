@@ -1,7 +1,7 @@
 import { RoomJSONType } from './constants';
 
 import { CategoryJSONType } from '../categories';
-import { backAPI, JSONSerializer } from '../common';
+import { backAPI, CommonConstants, JSONSerializer } from '../common';
 import type { JSONAPIDocument } from '../common';
 
 // JSON API
@@ -50,3 +50,5 @@ export async function searchRoomsApi(query: string | string[]): Promise<RoomResp
   });
   return JSONSerializer.deserialize<RoomResponse[]>(RoomJSONType, response.data);
 }
+
+export const avatarURL = (id: string) => `${CommonConstants.BACK_HOST}/v1/rooms/${id}/avatar`;

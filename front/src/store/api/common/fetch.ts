@@ -1,7 +1,7 @@
 import axios from 'axios';
 import JSONAPISerializer from 'json-api-serializer';
 
-const CommonConstants = {
+export const CommonConstants = {
   BACK_HOST: process.env.BACK_HOST,
 } as const;
 

@@ -1,3 +1,5 @@
+require 'avatar_generator'
+
 class Room < ApplicationRecord
   belongs_to :creator, class_name: 'User', optional: true
 
@@ -14,9 +16,36 @@ class Room < ApplicationRecord
   has_many :sub_category_rooms
   has_many :sub_categories, through: :sub_category_rooms, source: :category
 
-  scope :search, -> (query) do
+  has_one_attached :image
+
+  # TODO: 画像サイズの制限
+  # IMAGE_LIMIT_SIZE = 256
+  # has_one_attached :image do |attachable|
+  #   attachable.variant(:thumb, resize_to_limit: [IMAGE_LIMIT_SIZE, IMAGE_LIMIT_SIZE])
+  # end
+
+  after_create -> room { room.create_default_image }
+
+  scope :search, -> query do
     left_joins(:categories).
       where(rooms: {name: query}).
       or(where(categories: {name: query})).uniq
+  end
+
+  def create_default_image
+    return if image.attached?
+
+    blob =
+      AvatarGenerator.random_image(filename = "room-#{id}.png") do |path|
+        File.open(path, 'rb') do |o|
+          ActiveStorage::Blob.create_and_upload!(io: o, filename: filename)
+        end
+      end
+
+    image.attach(blob)
+  rescue => e
+    Rails.logger.error("Fail to create default avatar / Room##{id}")
+    Rails.logger.error(e.backtrace.join(?\n))
+    nil
   end
 end

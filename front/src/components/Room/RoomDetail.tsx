@@ -1,4 +1,4 @@
-import { Button, Card, CardActions, CardContent, Typography } from '@mui/material';
+import { Avatar, Box, Button, Card, CardActions, CardContent, Typography } from '@mui/material';
 import { FC } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -9,6 +9,7 @@ import {
   getRoom,
   useAppSelector,
   useAppObjectSelector,
+  useRoomAvatar,
   roomStateSelector,
   myUIStateSelector,
 } from '../../store';
@@ -22,30 +23,37 @@ export const RoomDetail: FC = () => {
 
   const room = useAppObjectSelector((state) => roomStateSelector(state)(roomId));
   const status = useAppSelector((state) => myUIStateSelector(state)(myChannel));
+  const avatarURL = useRoomAvatar(roomId);
 
   // TODO: カテゴリの表示
   return (
     <Card>
-      <CardContent>
-        <Typography gutterBottom>ルーム</Typography>
-        <Progress
-          status={status}
-          callback={() => {
-            dispatch(getRoom(myChannel, roomId));
-          }}
-          deps={[roomId]}
-        >
-          {room ? (
-            <>
-              <Typography>名前: {room.name}</Typography>
-              <Typography>説明: {room.description}</Typography>
-              <Typography>作成日: {room.created_at}</Typography>
-            </>
-          ) : (
-            <Typography>存在しません...</Typography>
-          )}
-        </Progress>
-      </CardContent>
+      <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+        <CardContent>
+          <Avatar src={avatarURL} />
+        </CardContent>
+        <CardContent>
+          <Progress
+            status={status}
+            callback={() => {
+              dispatch(getRoom(myChannel, roomId));
+            }}
+            deps={[roomId]}
+          >
+            {room ? (
+              <>
+                <Typography variant='h6' gutterBottom>
+                  {room.name}
+                </Typography>
+                <Typography>説明: {room.description}</Typography>
+                <Typography>作成日: {room.created_at}</Typography>
+              </>
+            ) : (
+              <Typography>存在しません...</Typography>
+            )}
+          </Progress>
+        </CardContent>
+      </Box>
       <CardActions>
         <Button
           // TODO: connected-react-router による再レンダリングを制限したい

@@ -12,6 +12,7 @@ services:
     env_file:
       - back/.env
       - db/.env
+      - minio/.env
     secrets:
       - db-password
       - minio-user

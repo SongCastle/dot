@@ -10,6 +10,7 @@ export {
 } from './categories';
 export {
   RoomAPIActionLabel,
+  avatarURL,
   // Action
   getRoomAPI,
   getLatestRoomsAPI,

@@ -10,6 +10,13 @@ class V1::RoomsController < ApplicationController
     return_json
   end
 
+  def avatar
+    room = Room.find_by(id: params[:id])
+    raise NotFound if room.nil? || room.image.blank?
+
+    redirect_to rails_storage_proxy_url(room.image)
+  end
+
   private
 
   def set_rooms_json

@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     resources :rooms, only: [:index, :show] do
       resources :categories, only: :index, controller: 'room_categories'
     end
+    get '/rooms/:id/avatar', controller: 'rooms', action: 'avatar'
 
     resources :users, only: [:index, :show]
 
