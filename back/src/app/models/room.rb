@@ -36,7 +36,7 @@ class Room < ApplicationRecord
     return if image.attached?
 
     blob =
-      AvatarGenerator.random_image(filename = "room-#{id}.png") do |path|
+      GitHubLikeAvatar.generate(filename = "room-#{id}.png") do |path|
         File.open(path, 'rb') do |o|
           ActiveStorage::Blob.create_and_upload!(io: o, filename: filename)
         end
