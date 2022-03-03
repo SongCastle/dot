@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/SongCastle/github_like_avatar.git
-  revision: 40d4b23188632a0a986e891e9bb97cfc4ccacc4d
-  tag: v1.0.0
+  revision: 9e8b41355ad3ca738154ff0d6fc159bd0dddc2fe
+  tag: v1.1.0
   specs:
-    github_like_avatar (1.0.0)
+    github_like_avatar (1.1.0)
       ruby-vips (>= 2.0.0)
 
 GEM
