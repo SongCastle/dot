@@ -1,4 +1,4 @@
-require 'avatar_generator'
+require 'github_like_avatar'
 
 class Room < ApplicationRecord
   belongs_to :creator, class_name: 'User', optional: true
