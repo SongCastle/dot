@@ -1,4 +1,4 @@
-require 'avatar_generator'
+require 'github_like_avatar'
 
 class Room < ApplicationRecord
   belongs_to :creator, class_name: 'User', optional: true
@@ -36,7 +36,7 @@ class Room < ApplicationRecord
     return if image.attached?
 
     blob =
-      AvatarGenerator.random_image(filename = "room-#{id}.png") do |path|
+      GitHubLikeAvatar.generate(filename = "room-#{id}.png") do |path|
         File.open(path, 'rb') do |o|
           ActiveStorage::Blob.create_and_upload!(io: o, filename: filename)
         end
