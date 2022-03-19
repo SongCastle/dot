@@ -58,7 +58,7 @@ export const PostList: FC<PostListProps> = ({ roomId, sx }) => {
             />
           </ListItem>
         ) : (
-          <Box maxHeight='60vh' sx={{ overflowY: 'scroll' }} ref={ref}>
+          <Box maxHeight='60vh' sx={{ overflowY: 'auto' }} ref={ref}>
             {posts.map(({ id, message, created_at }) => (
               <ListItem key={id} divider sx={{ py: '6px' }}>
                 <ListItemAvatar>
