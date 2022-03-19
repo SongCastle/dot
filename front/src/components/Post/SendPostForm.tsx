@@ -16,15 +16,28 @@ type SendPostFormProps = {
   onSent?: () => void;
 };
 
-// TODO: validation, cmd + return による送信
+const defaultTextLabel = 'メッセージ';
+const alertTextLabel = 'メッセージを入力してください！';
+
 export const SendPostForm: FC<SendPostFormProps> = ({ roomId, onSent }) => {
   const myChannel: Channel = `SendPostForm-${roomId}`;
   const status = useAppSelector((state) => myUIStateSelector(state)(myChannel));
 
   const [message, setMessage] = useState<string>('');
+  const [label, setLabel] = useState<string>(defaultTextLabel);
+
+  const sendMessage = () => {
+    // TODO: 投稿ユーザの判別
+    if (message === '') {
+      setLabel(alertTextLabel);
+      return;
+    }
+    dispatch(createPost(myChannel, roomId, null, message));
+  };
 
   useEffect(() => {
     if (status === ProgressStatus.SUCCESS) {
+      setLabel(defaultTextLabel);
       setMessage('');
       onSent?.();
     }
@@ -33,12 +46,18 @@ export const SendPostForm: FC<SendPostFormProps> = ({ roomId, onSent }) => {
   return (
     <>
       <TextField
-        label='メッセージ'
+        label={label}
         variant='outlined'
         size='small'
         value={message}
         onChange={(e) => {
           setMessage(e.target.value);
+        }}
+        onFocus={() => {
+          setLabel(defaultTextLabel);
+        }}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) sendMessage();
         }}
         multiline
         fullWidth
@@ -50,12 +69,7 @@ export const SendPostForm: FC<SendPostFormProps> = ({ roomId, onSent }) => {
           </IconButton>
         ) : (
           <Tooltip title='送信' placement='top'>
-            <IconButton
-              color='primary'
-              onClick={() => { // TODO: 投稿ユーザの判別
-                dispatch(createPost(myChannel, roomId, null, message));
-              }}
-            >
+            <IconButton color='primary' onClick={sendMessage}>
               <Send />
             </IconButton>
           </Tooltip>
