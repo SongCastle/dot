@@ -15,7 +15,7 @@ export const SearchResultInput: FC<SearchResultInputProp> = ({ q }) => (
     <Search />
     <SearchBox
       defaultText={q}
-      sx={{ width: '100%', marginLeft: '1rem' }}
+      sx={{ width: '100%', ml: '1rem' }}
       onSubmit={(text) => {
         const params = queryString.stringify({ q: text });
         dispatchPath(`/rooms/search?${params}`);

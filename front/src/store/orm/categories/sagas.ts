@@ -1,9 +1,8 @@
 import { put, select, takeLatest, takeEvery } from 'redux-saga/effects';
 
-import { CategoryActionLabel } from './constants';
-
 import { upsertCategories } from './actions';
 import type { GetLatestCategoriesType, GetRoomCategoriesType } from './actions';
+import { CategoryActionLabel } from './constants';
 
 import { requestCategoriesAPI, requestRoomCategoriesAPI } from '../../api';
 

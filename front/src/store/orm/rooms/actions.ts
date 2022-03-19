@@ -1,5 +1,5 @@
-import type { CreateProps, UpsertProps } from 'redux-orm';
 import { createAction } from '@reduxjs/toolkit';
+import type { CreateProps, UpsertProps } from 'redux-orm';
 
 import { RoomActionLabel } from './constants';
 import { Room } from './orm';

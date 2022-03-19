@@ -10,6 +10,8 @@ export {
   upsertCategories,
   getRoomCategories,
   getLatestCategories,
+  getRoomPosts,
+  createPost,
   upsertRooms,
   getRoom, // getCategoryRooms, // getLatestRooms, // searchRooms,
 } from './orm';
@@ -20,7 +22,13 @@ export { history } from './router';
 export { ProgressStatus } from './ui';
 export type { Channel, ProgressType } from './ui';
 
-export { useAppSelector, useAppObjectSelector, useQueryString, useRoomAvatar } from './hooks';
+export {
+  useAppSelector,
+  useAppObjectSelector,
+  useQueryString,
+  useRoomIdParams,
+  useRoomAvatar,
+} from './hooks';
 export { runSaga } from './sagas';
 export { dispatch, dispatchPath, store } from './store';
 
@@ -30,6 +38,7 @@ export {
   categoriesStateSelector,
   roomMainCategoryStateSelector,
   roomSubCategoriesStateSelector,
+  roomPostsStateSelector,
   roomStateSelector,
   roomsStateSelector,
   myUIStateSelector,

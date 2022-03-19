@@ -15,10 +15,10 @@ export const Top: FC = () => (
       justifyContent: 'center',
     }}
   >
-    <Box sx={{ width: '100%', marginBottom: '3rem', textAlign: 'center' }}>
+    <Box sx={{ width: '100%', mb: '3rem', textAlign: 'center' }}>
       <Logo />
       <SearchBox
-        sx={{ width: 'min(95%, 320px)', marginTop: '1rem' }}
+        sx={{ width: 'min(95%, 320px)', mt: '1rem' }}
         onSubmit={(text) => {
           const params = queryString.stringify({ q: text });
           dispatchPath(`/rooms/search?${params}`);

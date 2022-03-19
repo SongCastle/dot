@@ -6,6 +6,9 @@ export {
 } from './categories';
 // export type { CategoryState } from './categories';
 
+export { getRoomPosts, createPost, watchPostsRequest } from './posts';
+// export type { PostState } from './posts';
+
 export {
   upsertRooms,
   getRoom,
@@ -13,8 +16,7 @@ export {
   getLatestRooms,
   searchRooms,
   watchRoomsRequest,
-  Room,
 } from './rooms';
 // export type { RoomState } from './rooms';
 
-export { newCatgeorySession, newRoomSession, reducer } from './orm';
+export { newCatgeorySession, newPostSession, newRoomSession, reducer } from './orm';

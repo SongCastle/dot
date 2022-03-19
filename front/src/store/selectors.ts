@@ -1,7 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 
 import { selectLogo } from './logo';
-import { newCatgeorySession, newRoomSession } from './orm';
+import { newCatgeorySession, newPostSession, newRoomSession } from './orm';
 import type { Channel } from './ui';
 import type { RootState } from './reducers';
 
@@ -53,6 +53,15 @@ export const roomSubCategoriesStateSelector = createSelector(
     return room?.subCategoriesM?.all().toRefArray() || [];
   },
 );
+
+export const roomPostsStateSelector = createSelector(
+  ormSelector,
+  (state) => (roomId: string) =>
+    newPostSession(state)
+      .filter((post) => post.room === roomId)
+      .toRefArray(),
+);
+
 export const roomStateSelector = createSelector(
   ormSelector,
   (state) => (roomId: string) => newRoomSession(state).withId(roomId)?.ref,

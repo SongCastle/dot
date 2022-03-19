@@ -1,15 +1,17 @@
 import createSagaMiddleware from 'redux-saga';
 import { all, fork } from 'redux-saga/effects';
 
-import { watchCategoriesAPI, watchRoomsAPI } from './api';
-import { watchCategoriesRequest, watchRoomsRequest } from './orm';
+import { watchCategoriesAPI, watchPostsAPI, watchRoomsAPI } from './api';
+import { watchCategoriesRequest, watchPostsRequest, watchRoomsRequest } from './orm';
 
 // Root Saga
 function* rootSaga() {
   yield all([
     fork(watchCategoriesAPI),
+    fork(watchPostsAPI),
     fork(watchRoomsAPI),
     fork(watchCategoriesRequest),
+    fork(watchPostsRequest),
     fork(watchRoomsRequest),
   ]);
 }
