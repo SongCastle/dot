@@ -23,7 +23,7 @@ class ApplicationController < ActionController::API
     render json: {code: e.code}, status: e.status
   end
 
-  def return_json
+  def render_json
     render json: @json || {}
   end
 end

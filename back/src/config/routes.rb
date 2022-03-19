@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
     resources :rooms, only: [:index, :show] do
       resources :categories, only: :index, controller: 'room_categories'
+      resources :posts, only: [:index, :create], controller: 'room_posts'
     end
     get '/rooms/:id/avatar', controller: 'rooms', action: 'avatar'
 

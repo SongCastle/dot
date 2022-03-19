@@ -3,11 +3,11 @@ class V1::RoomsController < ApplicationController
   before_action :set_room_json, only: :show
 
   def index
-    return_json
+    render_json
   end
 
   def show
-    return_json
+    render_json
   end
 
   def avatar

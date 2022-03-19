@@ -2,7 +2,7 @@ class V1::CategoryRoomsController < ApplicationController
   before_action :set_category_rooms_json, only: :index
 
   def index
-    return_json
+    render_json
   end
 
   private
