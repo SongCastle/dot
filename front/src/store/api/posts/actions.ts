@@ -7,14 +7,22 @@ import type { Channel } from '../../ui';
 
 type OnlyIDPost = Partial<Omit<PostResponse, 'id'>> & Pick<PostResponse, 'id'>;
 export type PostActionCallback<T = any> = (post: OnlyIDPost) => T;
-export type PostsActionCallback<T = any> = (posts: OnlyIDPost[]) => T;
+export type PostsActionCallback<T = any> = (posts: OnlyIDPost[], total: number) => T;
 
 export const getRoomPostsAPI = createAction(
   PostAPIActionLabel.GET_ROOM_POSTS_API,
-  (channel: Channel, roomId: string, callback: PostsActionCallback) => ({
+  (
+    channel: Channel,
+    roomId: string,
+    limit: number,
+    offset: string | undefined,
+    callback: PostsActionCallback,
+  ) => ({
     payload: {
       channel,
       roomId,
+      limit,
+      offset,
       callback,
     },
   }),

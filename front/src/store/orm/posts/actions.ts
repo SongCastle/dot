@@ -11,10 +11,12 @@ export type UpsertPostProps = UpsertProps<Post>;
 // Action
 export const getRoomPosts = createAction(
   PostActionLabel.GET_ROOM_POSTS,
-  (channel: Channel, roomId: string) => ({
+  (channel: Channel, roomId: string, limit: number, offset?: string) => ({
     payload: {
       channel,
       roomId,
+      limit,
+      offset,
     },
   }),
 );

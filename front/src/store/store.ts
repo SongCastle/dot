@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import { CategoryAPIActionLabel, RoomAPIActionLabel } from './api';
+import { CategoryAPIActionLabel, PostAPIActionLabel, RoomAPIActionLabel } from './api';
 import { push, routerMiddleware } from './router';
 import { rootReducer } from './reducers';
 import { sagaMiddleware } from './sagas';
@@ -13,6 +13,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [
           ...Object.values(CategoryAPIActionLabel),
+          ...Object.values(PostAPIActionLabel),
           ...Object.values(RoomAPIActionLabel),
         ],
       },

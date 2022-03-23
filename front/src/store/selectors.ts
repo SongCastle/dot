@@ -2,8 +2,11 @@ import { createSelector } from '@reduxjs/toolkit';
 
 import { selectLogo } from './logo';
 import { newCatgeorySession, newPostSession, newRoomSession } from './orm';
+import type { PostState } from './orm';
 import type { Channel } from './ui';
 import type { RootState } from './reducers';
+
+const idComparator = Intl.Collator(undefined, { numeric: true }).compare;
 
 // Root Selector
 const selectSelf = (state: RootState) => state;
@@ -27,8 +30,8 @@ export const categoriesStateSelector = createSelector(
   ormSelector,
   (state) => (categoryIds: string[]) =>
     newCatgeorySession(state)
-      .filter((category) => categoryIds.includes(category.id))
-      .orderBy((category) => category.id, 'desc')
+      .sortBy(({ id }, category) => idComparator(id, category.id), false)
+      .filter(({ id }) => categoryIds.includes(id))
       .toRefArray(),
 );
 
@@ -54,12 +57,17 @@ export const roomSubCategoriesStateSelector = createSelector(
   },
 );
 
-export const roomPostsStateSelector = createSelector(
+export const postsStateSelector = createSelector(
   ormSelector,
-  (state) => (roomId: string) =>
-    newPostSession(state)
-      .filter((post) => post.room === roomId)
-      .toRefArray(),
+  (state) => (filter: (post: PostState) => boolean, offset?: string) => {
+    const filterWithOffset = offset
+      ? (post: PostState) => idComparator(post.id, offset) < 0 && filter(post)
+      : filter;
+    return newPostSession(state)
+      .sortBy(({ id }, post) => idComparator(id, post.id), false)
+      .filter(filterWithOffset)
+      .toRefArray();
+  },
 );
 
 export const roomStateSelector = createSelector(
@@ -71,8 +79,8 @@ export const roomsStateSelector = createSelector(
   ormSelector,
   (state) => (roomIds: string[]) =>
     newRoomSession(state)
-      .filter((room) => roomIds.includes(room.id))
-      .orderBy((room) => room.id, 'desc')
+      .filter(({ id }) => roomIds.includes(id))
+      .sortBy(({ id }, room) => idComparator(id, room.id), false)
       .toRefArray(),
 );
 

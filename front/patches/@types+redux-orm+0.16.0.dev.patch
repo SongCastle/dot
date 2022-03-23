@@ -1,0 +1,37 @@
+diff --git a/node_modules/@types/redux-orm/QuerySet.d.ts b/node_modules/@types/redux-orm/QuerySet.d.ts
+index 717ca85..2f5e9ba 100644
+--- a/node_modules/@types/redux-orm/QuerySet.d.ts
++++ b/node_modules/@types/redux-orm/QuerySet.d.ts
+@@ -88,6 +88,11 @@ export class QuerySet<M extends AnyModel = any, InstanceProps extends object = {
+         orders?: QuerySet.SortOrder | ReadonlyArray<QuerySet.SortOrder>
+     ): QuerySet<M, InstanceProps>;
+ 
++    sortBy(
++        comparator: QuerySet.SortComparator<M> | ReadonlyArray<QuerySet.SortComparator<M>>,
++        order?: QuerySet.SortOrder | ReadonlyArray<QuerySet.SortOrder>
++    ): QuerySet<M, InstanceProps>;
++
+     count(): number;
+ 
+     update(mergeObj: UpdateProps<M>): void;
+@@ -212,6 +217,11 @@ export namespace QuerySet {
+             orders?: SortOrder | ReadonlyArray<SortOrder>
+         ): QuerySet<M, InstanceProps>;
+ 
++        sortBy(
++            comparator: SortComparator<M> | ReadonlyArray<SortComparator<M>>,
++            order?: SortOrder | ReadonlyArray<SortOrder>
++        ): QuerySet<M, InstanceProps>;
++
+         /**
+          * Records an update specified with `mergeObj` to all the objects
+          * in the {@link QuerySet} instance.
+@@ -249,6 +259,8 @@ export namespace QuerySet {
+      */
+     type SortIteratee<M extends Model> = keyof Ref<M> | { (row: Ref<M>): any };
+ 
++    type SortComparator<M extends Model> = keyof Ref<M> | { (row: Ref<M>, row2: Ref<M>): any };
++
+     /**
+      * Lookup clause as an object specifying props to match with plain object Model representation stored in the database.
+      * {@see QuerySet.exclude}

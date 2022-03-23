@@ -10,6 +10,9 @@ export {
 } from './categories';
 
 export {
+  PostAPIActionLabel,
+  // Action
+  getRoomPostsAPI,
   // Saga
   requestRoomPostsAPI,
   requestCreatePostAPI,

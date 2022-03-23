@@ -1,6 +1,7 @@
 export {
   // getRoomAPI,
   getLatestCategoriesAPI,
+  // getRoomPostsAPI,
   getLatestRoomsAPI,
   // getCategoryRoomsAPI,
   searchRoomsAPI,
@@ -12,6 +13,7 @@ export {
   getLatestCategories,
   getRoomPosts,
   createPost,
+  upsertPosts,
   upsertRooms,
   getRoom, // getCategoryRooms, // getLatestRooms, // searchRooms,
 } from './orm';
@@ -38,7 +40,7 @@ export {
   categoriesStateSelector,
   roomMainCategoryStateSelector,
   roomSubCategoriesStateSelector,
-  roomPostsStateSelector,
+  postsStateSelector,
   roomStateSelector,
   roomsStateSelector,
   myUIStateSelector,
