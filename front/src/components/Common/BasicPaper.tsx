@@ -1,24 +1,23 @@
-import { css } from '@emotion/react';
 import { Paper } from '@mui/material';
+import type { PaperProps } from '@mui/material';
 import { FC } from 'react';
 import type { ReactNode } from 'react';
 
 type BasicPaperProp = {
-  customCSS?: ReturnType<typeof css>;
+  sx?: PaperProps['sx'];
+  elevation?: PaperProps['elevation'];
   children: ReactNode;
 };
 
-// TODO: Theme の検討 ...
-const paperStyle = (customCSS: BasicPaperProp['customCSS']) =>
-  css`
-    padding: 1rem;
-    ${customCSS};
-  `;
+const defaultSX = { p: '1rem' };
 
-export const BasicPaper: FC<BasicPaperProp> = ({ customCSS, children }) => (
-  <Paper css={paperStyle(customCSS)}>{children}</Paper>
+export const BasicPaper: FC<BasicPaperProp> = ({ sx, elevation, children }) => (
+  <Paper sx={{ ...defaultSX, ...sx }} elevation={elevation}>
+    {children}
+  </Paper>
 );
 
 BasicPaper.defaultProps = {
-  customCSS: undefined,
+  sx: {},
+  elevation: 1,
 };

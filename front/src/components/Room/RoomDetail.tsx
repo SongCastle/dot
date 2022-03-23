@@ -1,69 +1,68 @@
-import { Avatar, Box, Button, Card, CardActions, CardContent, Typography } from '@mui/material';
+import { Avatar, Box, Typography } from '@mui/material';
 import { FC } from 'react';
-import { useParams } from 'react-router-dom';
 
+import { PostList } from '../Post/PostList';
 import { Progress } from '../Progress/Progress';
+
 import {
   dispatch,
-  dispatchPath,
   getRoom,
   useAppSelector,
   useAppObjectSelector,
+  useRoomIdParams,
   useRoomAvatar,
   roomStateSelector,
   myUIStateSelector,
 } from '../../store';
 import type { Channel } from '../../store';
 
-type RoomParams = { roomId: string };
-
+// TODO: 最新のルーム一覧への導線, カテゴリなど詳細表示,
 export const RoomDetail: FC = () => {
-  const { roomId } = useParams<RoomParams>();
+  const { roomId } = useRoomIdParams();
   const myChannel: Channel = `RoomDetail-${roomId}`;
 
   const room = useAppObjectSelector((state) => roomStateSelector(state)(roomId));
   const status = useAppSelector((state) => myUIStateSelector(state)(myChannel));
   const avatarURL = useRoomAvatar(roomId);
 
-  // TODO: カテゴリの表示
   return (
-    <Card>
-      <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-        <CardContent>
-          <Avatar src={avatarURL} />
-        </CardContent>
-        <CardContent>
-          <Progress
-            status={status}
-            callback={() => {
-              dispatch(getRoom(myChannel, roomId));
-            }}
-            deps={[roomId]}
+    <Progress
+      status={status}
+      callback={() => {
+        dispatch(getRoom(myChannel, roomId));
+      }}
+      deps={[roomId]}
+    >
+      {room ? (
+        <>
+          <Box position='relative' textAlign='center' zIndex='2'>
+            <Box
+              display='inline-flex'
+              flexDirection='row'
+              alignItems='center'
+              p='0.5rem 2rem'
+              boxShadow='0 0 3px gray'
+              gap='1rem'
+              sx={{ backgroundColor: 'white' }}
+            >
+              <Avatar src={avatarURL} sx={{ width: 32, height: 32 }} />
+              <Typography>{room.name}</Typography>
+            </Box>
+          </Box>
+          <Box
+            position='relative'
+            top='-1.35rem'
+            p='0 1rem'
+            borderRadius='3px'
+            border='1px solid lightgray'
+            zIndex='1'
           >
-            {room ? (
-              <>
-                <Typography variant='h6' gutterBottom>
-                  {room.name}
-                </Typography>
-                <Typography>説明: {room.description}</Typography>
-                <Typography>作成日: {room.created_at}</Typography>
-              </>
-            ) : (
-              <Typography>存在しません...</Typography>
-            )}
-          </Progress>
-        </CardContent>
-      </Box>
-      <CardActions>
-        <Button
-          // TODO: connected-react-router による再レンダリングを制限したい
-          onClick={() => {
-            dispatchPath('/latest');
-          }}
-        >
-          最新のルーム一覧
-        </Button>
-      </CardActions>
-    </Card>
+            <PostList roomId={roomId} sx={{ pt: '1.25rem', mx: '0.5rem' }} />
+          </Box>
+        </>
+      ) : (
+        <Typography>存在しません...</Typography>
+      )}
+    </Progress>
   );
 };

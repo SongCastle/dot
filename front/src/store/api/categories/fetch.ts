@@ -22,7 +22,7 @@ export type CategoryResponse = {
 };
 
 // API
-export async function getCategoriesApi(type?: 'main' | 'sub'): Promise<CategoryResponse[]> {
+export async function getCategoriesAPI(type?: 'main' | 'sub'): Promise<CategoryResponse[]> {
   const response = await backAPI.get<JSONAPIDocument>('/v1/categories', {
     params: {
       type,
@@ -31,7 +31,7 @@ export async function getCategoriesApi(type?: 'main' | 'sub'): Promise<CategoryR
   return JSONSerializer.deserialize<CategoryResponse[]>(CategoryJSONType, response.data);
 }
 
-export async function getRoomCategoriesApi(roomId: string): Promise<CategoryResponse[]> {
+export async function getRoomCategoriesAPI(roomId: string): Promise<CategoryResponse[]> {
   const response = await backAPI.get<JSONAPIDocument>(`/v1/rooms/${roomId}/categories`);
   return JSONSerializer.deserialize<CategoryResponse[]>(CategoryJSONType, response.data);
 }

@@ -16,7 +16,7 @@ export const App: FC<AppProp> = ({ children }) => (
       sx={{
         width: 'min(90%, 960px)',
         height: 'max(0px, 75vh)',
-        margin: 'auto',
+        m: 'auto',
       }}
     >
       {children}

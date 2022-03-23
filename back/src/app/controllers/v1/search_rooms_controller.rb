@@ -3,6 +3,6 @@ class V1::SearchRoomsController < V1::SearchController
     rooms = Room.search(query)
     @json = RoomSerializer.new(rooms, is_collection: true)
 
-    return_json
+    render_json
   end
 end

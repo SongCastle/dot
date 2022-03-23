@@ -1,4 +1,3 @@
-import { css } from '@emotion/react';
 import { Box } from '@mui/material';
 import { useState, FC } from 'react';
 
@@ -18,10 +17,6 @@ import {
 
 const myChannel = 'SearchResult';
 
-const paperStyle = css`
-  margin-top: 1rem;
-`;
-
 const toQueryText = (q?: string | string[] | null) =>
   (typeof q === 'string' ? q : q?.join(' ')) || '';
 
@@ -35,7 +30,7 @@ export const SearchResult: FC = () => {
   return (
     <Box my={4}>
       <SearchResultInput q={toQueryText(q)} />
-      <BasicPaper customCSS={paperStyle}>
+      <BasicPaper sx={{ mt: '1rem' }}>
         <Progress
           status={status}
           callback={() => {

@@ -1,4 +1,4 @@
-import { call, takeEvery } from 'redux-saga/effects';
+import { call, takeEvery, takeLatest } from 'redux-saga/effects';
 
 import { CategoryAPIActionLabel } from './constants';
 import type {
@@ -7,13 +7,13 @@ import type {
   GetRoomCategoriesAPI,
 } from './actions';
 
-import { getCategoriesApi, getRoomCategoriesApi } from './fetch';
+import { getCategoriesAPI, getRoomCategoriesAPI } from './fetch';
 import type { CategoryResponse } from './fetch';
 
 import { progressHandler } from '../../ui';
 
 export function* requestCategoriesAPI<T>(callback: CategoriesActionCallback<T>) {
-  const categories: CategoryResponse[] = yield call(getCategoriesApi);
+  const categories: CategoryResponse[] = yield call(getCategoriesAPI);
   yield callback(categories);
 }
 
@@ -21,7 +21,7 @@ export function* requestRoomCategoriesAPI<T>(
   roomId: string,
   callback: CategoriesActionCallback<T>,
 ) {
-  const categories: CategoryResponse[] = yield call(() => getRoomCategoriesApi(roomId));
+  const categories: CategoryResponse[] = yield call(() => getRoomCategoriesAPI(roomId));
   yield callback(categories);
 }
 
@@ -35,7 +35,7 @@ export function* watchCategoriesAPI() {
       ),
   );
 
-  yield takeEvery(
+  yield takeLatest(
     CategoryAPIActionLabel.GET_ROOM_CATEGORIES_API,
     ({ payload: { channel, roomId, callback } }: GetRoomCategoriesAPI) =>
       progressHandler(

@@ -17,8 +17,7 @@ export interface RoomFields {
   mainCategoryM?: SessionBoundModel<Category>;
   subCategoriesM?: ModelType<Category>;
 }
-export type RoomState = Ref<Category> &
-  Readonly<Pick<RoomFields, 'main_category' | 'sub_categories'>>;
+export type RoomState = Ref<Room> & Readonly<Pick<RoomFields, 'main_category' | 'sub_categories'>>;
 
 export class Room extends Model<typeof Room, RoomFields> {
   static override modelName = 'Room' as const;

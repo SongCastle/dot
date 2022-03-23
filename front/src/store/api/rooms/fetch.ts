@@ -27,22 +27,22 @@ export type RoomResponse = {
 };
 
 // API
-export async function getRoomApi(roomId: string): Promise<RoomResponse> {
+export async function getRoomAPI(roomId: string): Promise<RoomResponse> {
   const response = await backAPI.get<JSONAPIDocument>(`/v1/rooms/${roomId}`);
   return JSONSerializer.deserialize<RoomResponse>(RoomJSONType, response.data);
 }
 
-export async function getRoomsApi(): Promise<RoomResponse[]> {
+export async function getRoomsAPI(): Promise<RoomResponse[]> {
   const response = await backAPI.get<JSONAPIDocument>('/v1/rooms');
   return JSONSerializer.deserialize<RoomResponse[]>(RoomJSONType, response.data);
 }
 
-export async function getCategoryRoomsApi(categoryId: string): Promise<RoomResponse[]> {
+export async function getCategoryRoomsAPI(categoryId: string): Promise<RoomResponse[]> {
   const response = await backAPI.get<JSONAPIDocument>(`/v1/categories/${categoryId}/rooms`);
   return JSONSerializer.deserialize<RoomResponse[]>(RoomJSONType, response.data);
 }
 
-export async function searchRoomsApi(query: string | string[]): Promise<RoomResponse[]> {
+export async function searchRoomsAPI(query: string | string[]): Promise<RoomResponse[]> {
   const response = await backAPI.get<JSONAPIDocument>(`/v1/search/rooms`, {
     params: {
       q: query,

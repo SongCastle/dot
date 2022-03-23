@@ -7,5 +7,8 @@ class User < ApplicationRecord
   has_many :room_users
   has_many :rooms, through: :room_users
 
+  has_many :posts
+
+  # TODO: DB に一意制約追加する
   validates :login, uniqueness: true
 end

@@ -6,6 +6,8 @@ class Room < ApplicationRecord
   has_many :room_users
   has_many :users, through: :room_users
 
+  has_many :posts
+
   # 全てのカテゴリ
   has_many :category_rooms
   has_many :categories, through: :category_rooms

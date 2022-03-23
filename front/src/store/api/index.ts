@@ -8,6 +8,14 @@ export {
   requestRoomCategoriesAPI,
   watchCategoriesAPI,
 } from './categories';
+
+export {
+  // Saga
+  requestRoomPostsAPI,
+  requestCreatePostAPI,
+  watchPostsAPI,
+} from './posts';
+
 export {
   RoomAPIActionLabel,
   avatarURL,
