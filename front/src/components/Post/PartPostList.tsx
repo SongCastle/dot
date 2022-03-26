@@ -23,9 +23,10 @@ type PartPostListProps<ET extends HTMLElement = HTMLDivElement> = {
   readonly offset?: string;
   readonly limit: number;
   readonly outerRef: RefObject<ET>;
-  readonly onLoaded?: () => void;
+  readonly onLoaded?: (loadCount: number) => void;
 };
 
+const aheadLoadMargin = 100;
 const monitorInterval = 250;
 
 const postStyle = css`
@@ -47,28 +48,43 @@ export const PartPostList: FC<PartPostListProps> = ({
   const status = useAppSelector((state) => myUIStateSelector(state)(myChannel));
   const posts = useAppObjectSelector((state) =>
     // eslint-disable-next-line no-return-assign
-    postsStateSelector(state)(({ room }) => room === roomId && (counter += 1) < limit, offset),
+    postsStateSelector(state)(({ room }) => room === roomId && (counter += 1) <= limit, offset),
   );
 
   const [loadNext, setLoadNext] = useState<boolean>(false);
   const topRef = useRef<HTMLDivElement>(null);
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  const isScrollHeightForNext = () => {
+    const y = topRef.current?.getBoundingClientRect().y;
+    const oy = outerRef.current?.getBoundingClientRect().y;
+    return !!(y && oy && y + aheadLoadMargin > oy);
+  };
 
   useLayoutEffect(() => {
     clearInterval(moniorTimer);
     moniorTimer = setInterval(() => {
-      const y = topRef.current?.getBoundingClientRect().y;
-      const oy = outerRef.current?.getBoundingClientRect().y;
-      if (y && oy && y + 100 > oy && posts.length > 0) {
+      if (isScrollHeightForNext() && posts.length === limit) {
         setLoadNext(true);
+        clearInterval(moniorTimer);
+      } else if (posts.length < limit) {
         clearInterval(moniorTimer);
       }
     }, monitorInterval);
 
-    onLoaded?.();
+    if (status === ProgressStatus.SUCCESS) {
+      if (isScrollHeightForNext() && posts.length === limit) {
+        const y = topRef.current?.getBoundingClientRect().y;
+        const by = bottomRef.current?.getBoundingClientRect().y;
+        if (y && by) outerRef.current?.scrollTo({ top: by - y });
+      }
+      onLoaded?.(posts.length);
+    }
   }, [status === ProgressStatus.SUCCESS]);
 
   return (
     <Progress
+      sx={{ mt: 2, textAlign: 'center' }}
       status={status}
       callback={() => {
         dispatch(getRoomPosts(myChannel, roomId, limit, offset));
@@ -93,6 +109,7 @@ export const PartPostList: FC<PartPostListProps> = ({
               limit={limit}
               offset={posts[posts.length - 1].id}
               outerRef={outerRef}
+              onLoaded={onLoaded}
             />
           )}
           {posts
@@ -110,6 +127,7 @@ export const PartPostList: FC<PartPostListProps> = ({
               </ListItem>
             ))
             .reverse()}
+          <Box ref={bottomRef} />
         </>
       )}
     </Progress>
