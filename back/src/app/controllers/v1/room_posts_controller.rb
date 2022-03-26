@@ -56,7 +56,7 @@ class V1::RoomPostsController < ApplicationController
   end
 
   def _params!(key)
-    return nil unless params.key?(key)
+    return nil if params[key].nil?
     raise BadRequest, code: "invalid_#{key}" unless params[key].is_a?(String)
     _path_params!(key)
   end
