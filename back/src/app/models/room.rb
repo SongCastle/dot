@@ -1,6 +1,7 @@
 require 'github_like_avatar'
 
 class Room < ApplicationRecord
+  # TODO: dependent: :destroy の追加
   belongs_to :creator, class_name: 'User', optional: true
 
   has_many :room_users

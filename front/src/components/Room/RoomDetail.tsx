@@ -41,7 +41,7 @@ export const RoomDetail: FC = () => {
               flexDirection='row'
               alignItems='center'
               p='0.5rem 2rem'
-              boxShadow='0 0 3px gray'
+              boxShadow='0 0 3px darkgray'
               gap='1rem'
               sx={{ backgroundColor: 'white' }}
             >

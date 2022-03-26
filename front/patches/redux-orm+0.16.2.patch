@@ -1,0 +1,194 @@
+diff --git a/node_modules/redux-orm/es/QuerySet.js b/node_modules/redux-orm/es/QuerySet.js
+index f12d5d1..0e4b9e9 100644
+--- a/node_modules/redux-orm/es/QuerySet.js
++++ b/node_modules/redux-orm/es/QuerySet.js
+@@ -7,7 +7,7 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
+ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+ 
+ import { normalizeEntity, warnDeprecated, mapValues } from "./utils";
+-import { UPDATE, DELETE, FILTER, EXCLUDE, ORDER_BY } from "./constants";
++import { UPDATE, DELETE, FILTER, EXCLUDE, ORDER_BY, SORT_BY } from "./constants";
+ /**
+  * This class is used to build and make queries to the database
+  * and operating the resulting set (such as updating attributes
+@@ -276,6 +276,19 @@ var QuerySet = /*#__PURE__*/function () {
+      */
+ 
+     return this._new(this.clauses.concat(orderByDescriptor));
++  };
++
++  _proto.sortBy = function sortBy(comparator, order) {
++    var sortByDescriptor = {
++      type: SORT_BY,
++      payload: [comparator, order]
++    };
++    /**
++     * create a new QuerySet
++     * sorting all rows according to the passed arguments
++     */
++
++    return this._new(this.clauses.concat(sortByDescriptor));
+   }
+   /**
+    * Records an update specified with `mergeObj` to all the objects
+@@ -369,5 +382,5 @@ var QuerySet = /*#__PURE__*/function () {
+   return QuerySet;
+ }();
+ 
+-QuerySet.sharedMethods = ["count", "at", "all", "last", "first", "filter", "exclude", "orderBy", "update", "delete"];
++QuerySet.sharedMethods = ["count", "at", "all", "last", "first", "filter", "exclude", "orderBy", "sortBy", "update", "delete"];
+ export default QuerySet;
+\ No newline at end of file
+diff --git a/node_modules/redux-orm/es/constants.js b/node_modules/redux-orm/es/constants.js
+index 70f3092..9ed0ab9 100644
+--- a/node_modules/redux-orm/es/constants.js
++++ b/node_modules/redux-orm/es/constants.js
+@@ -4,6 +4,7 @@ export var CREATE = "REDUX_ORM_CREATE";
+ export var FILTER = "REDUX_ORM_FILTER";
+ export var EXCLUDE = "REDUX_ORM_EXCLUDE";
+ export var ORDER_BY = "REDUX_ORM_ORDER_BY";
++export var SORT_BY = "REDUX_ORM_SORT_BY";
+ export var SUCCESS = "SUCCESS";
+ export var FAILURE = "FAILURE"; // for detecting ORM state objects
+ 
+diff --git a/node_modules/redux-orm/es/db/Table.js b/node_modules/redux-orm/es/db/Table.js
+index 5c8b1cf..0a63e36 100644
+--- a/node_modules/redux-orm/es/db/Table.js
++++ b/node_modules/redux-orm/es/db/Table.js
+@@ -11,7 +11,8 @@ import filter from "lodash/filter";
+ import orderBy from "lodash/orderBy";
+ import reject from "lodash/reject";
+ import sortBy from "lodash/sortBy";
+-import { EXCLUDE, FILTER, ORDER_BY } from "../constants";
++import map from "lodash/map";
++import { EXCLUDE, FILTER, ORDER_BY, SORT_BY } from "../constants";
+ import { clauseFiltersByAttribute, clauseReducesResultSetSize } from "../utils";
+ var DEFAULT_TABLE_OPTIONS = {
+   idAttribute: "id",
+@@ -80,6 +81,17 @@ function normalizeOrders(orders) {
+ 
+   return Array.isArray(orders) ? orders.map(convert) : convert(orders);
+ }
++
++function normalizeComparator(comparator, order) {
++  if (["desc", false].includes(order)) {
++    return function () {
++      return comparator.apply(void 0, arguments) * -1;
++    };
++  }
++
++  return comparator;
++}
++
+ /**
+  * Handles the underlying data structure for a {@link Model} class.
+  * @private
+@@ -333,6 +345,15 @@ export var Table = /*#__PURE__*/function () {
+             return orderBy(rows, iteratees, normalizeOrders(orders));
+           }
+ 
++        case SORT_BY:
++          {
++            var _payload = _slicedToArray(payload, 2),
++              comparator = _payload[0],
++              order = _payload[1];
++
++            return map(rows).sort(normalizeComparator(comparator, order));
++          }
++
+         default:
+           return rows;
+       }
+diff --git a/node_modules/redux-orm/lib/QuerySet.js b/node_modules/redux-orm/lib/QuerySet.js
+index faeae92..4dff83b 100644
+--- a/node_modules/redux-orm/lib/QuerySet.js
++++ b/node_modules/redux-orm/lib/QuerySet.js
+@@ -288,6 +288,19 @@ var QuerySet = /*#__PURE__*/function () {
+      */
+ 
+     return this._new(this.clauses.concat(orderByDescriptor));
++  };
++
++  _proto.sortBy = function sortBy(comparator, order) {
++    var sortByDescriptor = {
++      type: _constants.SORT_BY,
++      payload: [comparator, order]
++    };
++    /**
++     * create a new QuerySet
++     * sorting all rows according to the passed arguments
++     */
++
++    return this._new(this.clauses.concat(sortByDescriptor));
+   }
+   /**
+    * Records an update specified with `mergeObj` to all the objects
+@@ -380,6 +393,6 @@ var QuerySet = /*#__PURE__*/function () {
+   return QuerySet;
+ }();
+ 
+-QuerySet.sharedMethods = ["count", "at", "all", "last", "first", "filter", "exclude", "orderBy", "update", "delete"];
++QuerySet.sharedMethods = ["count", "at", "all", "last", "first", "filter", "exclude", "orderBy", "sortBy", "update", "delete"];
+ var _default = QuerySet;
+ exports["default"] = _default;
+\ No newline at end of file
+diff --git a/node_modules/redux-orm/lib/constants.js b/node_modules/redux-orm/lib/constants.js
+index 557a358..29364a9 100644
+--- a/node_modules/redux-orm/lib/constants.js
++++ b/node_modules/redux-orm/lib/constants.js
+@@ -16,6 +16,8 @@ var EXCLUDE = "REDUX_ORM_EXCLUDE";
+ exports.EXCLUDE = EXCLUDE;
+ var ORDER_BY = "REDUX_ORM_ORDER_BY";
+ exports.ORDER_BY = ORDER_BY;
++var SORT_BY = "REDUX_ORM_SORT_BY";
++exports.SORT_BY = SORT_BY;
+ var SUCCESS = "SUCCESS";
+ exports.SUCCESS = SUCCESS;
+ var FAILURE = "FAILURE"; // for detecting ORM state objects
+diff --git a/node_modules/redux-orm/lib/db/Table.js b/node_modules/redux-orm/lib/db/Table.js
+index 4806a2c..6cd098b 100644
+--- a/node_modules/redux-orm/lib/db/Table.js
++++ b/node_modules/redux-orm/lib/db/Table.js
+@@ -23,6 +23,8 @@ var _reject = _interopRequireDefault(require("lodash/reject"));
+ 
+ var _sortBy = _interopRequireDefault(require("lodash/sortBy"));
+ 
++var _map = _interopRequireDefault(require("lodash/map"));
++
+ var _constants = require("../constants");
+ 
+ var _utils = require("../utils");
+@@ -98,6 +100,17 @@ function normalizeOrders(orders) {
+ 
+   return Array.isArray(orders) ? orders.map(convert) : convert(orders);
+ }
++
++function normalizeComparator(comparator, order) {
++  if (["desc", false].includes(order)) {
++    return function () {
++      return comparator.apply(void 0, arguments) * -1;
++    };
++  }
++
++  return comparator;
++}
++
+ /**
+  * Handles the underlying data structure for a {@link Model} class.
+  * @private
+@@ -352,6 +365,15 @@ var Table = /*#__PURE__*/function () {
+             return (0, _orderBy["default"])(rows, iteratees, normalizeOrders(orders));
+           }
+ 
++        case _constants.SORT_BY:
++          {
++            var _payload = (0, _slicedToArray2["default"])(payload, 2),
++                comparator = _payload[0],
++                order = _payload[1];
++
++            return (0, _map["default"])(rows).sort(normalizeComparator(comparator, order));
++          }
++
+         default:
+           return rows;
+       }

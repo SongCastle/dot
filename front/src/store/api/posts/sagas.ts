@@ -4,13 +4,20 @@ import { PostActionCallback, PostsActionCallback } from './actions';
 import type { GetRoomPostsAPI } from './actions';
 import { PostAPIActionLabel } from './constants';
 import { getRoomPostsAPI, createPostAPI } from './fetch';
-import type { PostResponse } from './fetch';
+import type { GetRoomPostsResponse, PostResponse } from './fetch';
 
 import { progressHandler } from '../../ui';
 
-export function* requestRoomPostsAPI<T>(roomId: string, callBack: PostsActionCallback<T>) {
-  const posts: PostResponse[] = yield call(() => getRoomPostsAPI(roomId));
-  yield callBack(posts);
+export function* requestRoomPostsAPI<T>(
+  roomId: string,
+  limit: number,
+  offset: string | undefined,
+  callBack: PostsActionCallback<T>,
+) {
+  const { posts, total }: GetRoomPostsResponse = yield call(() =>
+    getRoomPostsAPI(roomId, limit, offset),
+  );
+  yield callBack(posts, total);
 }
 
 export function* requestCreatePostAPI<T>(
@@ -26,10 +33,10 @@ export function* requestCreatePostAPI<T>(
 export function* watchPostsAPI() {
   yield takeEvery(
     PostAPIActionLabel.GET_ROOM_POSTS_API,
-    ({ payload: { channel, roomId, callback } }: GetRoomPostsAPI) =>
+    ({ payload: { channel, roomId, limit, offset, callback } }: GetRoomPostsAPI) =>
       progressHandler(
         channel,
-        requestRoomPostsAPI(roomId, (room) => callback(room)),
+        requestRoomPostsAPI(roomId, limit, offset, (room, total) => callback(room, total)),
       ),
   );
 }

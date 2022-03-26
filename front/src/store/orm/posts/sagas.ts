@@ -7,8 +7,8 @@ import { PostActionLabel } from './constants';
 import { requestRoomPostsAPI, requestCreatePostAPI } from '../../api';
 import { progressHandler } from '../../ui';
 
-function* requestRoomPosts(roomId: string) {
-  yield requestRoomPostsAPI(roomId, (posts) => put(upsertPosts(posts)));
+function* requestRoomPosts(roomId: string, limit: number, offset?: string) {
+  yield requestRoomPostsAPI(roomId, limit, offset, (posts) => put(upsertPosts(posts)));
 }
 
 function* requestCreatePost(roomId: string, userId: string | null, message: string) {
@@ -18,8 +18,8 @@ function* requestCreatePost(roomId: string, userId: string | null, message: stri
 export function* watchPostsRequest() {
   yield takeLatest(
     PostActionLabel.GET_ROOM_POSTS,
-    ({ payload: { channel, roomId } }: GetRoomPostsType) =>
-      progressHandler(channel, requestRoomPosts(roomId)),
+    ({ payload: { channel, roomId, limit, offset } }: GetRoomPostsType) =>
+      progressHandler(channel, requestRoomPosts(roomId, limit, offset)),
   );
 
   yield takeEvery(

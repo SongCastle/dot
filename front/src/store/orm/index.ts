@@ -6,8 +6,8 @@ export {
 } from './categories';
 // export type { CategoryState } from './categories';
 
-export { getRoomPosts, createPost, watchPostsRequest } from './posts';
-// export type { PostState } from './posts';
+export { getRoomPosts, createPost, upsertPosts, watchPostsRequest } from './posts';
+export type { PostState } from './posts';
 
 export {
   upsertRooms,
